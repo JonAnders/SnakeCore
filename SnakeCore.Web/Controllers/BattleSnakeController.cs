@@ -1,6 +1,8 @@
-﻿using System.IO;
+﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+
+using SnakeCore.Web.Brains;
 
 namespace SnakeCore.Web.Controllers
 {
@@ -18,34 +20,30 @@ namespace SnakeCore.Web.Controllers
 
 
         [Route("start")]
-        public IActionResult Start()
+        public IActionResult Start([FromRoute(Name = "brain")]string brainName, GameState gameState)
         {
-            return Json(new
-            {
-                Color = "#aaaaaa",
-                HeadType = "bendr",
-                TailType = "pixel"
-            });
+            var brain = GetBrain(brainName);
+
+            return Json(brain.Start(gameState));
         }
-        
+
 
         [HttpPost("move")]
-        public IActionResult Move()
+        public IActionResult Move([FromRoute(Name = "brain")]string brainName, GameState gameState)
         {
-            var jsonBody = new StreamReader(Request.Body).ReadToEnd();
-
-            this.logger.LogDebug(jsonBody);
-
-            return Json(new
-            {
-                Move = "left"
-            });
+            var brain = GetBrain(brainName);
+            
+            return Json(brain.Move(gameState));
         }
 
         
         [HttpPost("end")]
-        public IActionResult End()
+        public IActionResult End([FromRoute(Name = "brain")]string brainName, GameState gameState)
         {
+            var brain = GetBrain(brainName);
+
+            brain.End(gameState);
+
             return Ok();
         }
         
@@ -54,6 +52,18 @@ namespace SnakeCore.Web.Controllers
         public IActionResult Ping()
         {
             return Ok();
+        }
+        
+
+        private IBrain GetBrain(string brainName)
+        {
+            switch (brainName)
+            {
+                case "lefty":
+                    return new Lefty();
+            }
+
+            throw new Exception($"Unkown brain: {brainName}");
         }
     }
 }
