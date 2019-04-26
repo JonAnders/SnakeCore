@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SnakeCore.Web.Brains
@@ -23,7 +24,10 @@ namespace SnakeCore.Web.Brains
             AvoidWalls(moves, gameState);
             AvoidSnakes(moves, gameState);
             ConsiderKilling(moves, gameState);
+            EatIfHungry(moves, gameState);
             PredictFuture(moves, gameState);
+
+            PrintWeightedMoves(moves);
 
             var orderedMoves = moves
                 .OrderByDescending(x => x.Weight);
@@ -104,6 +108,30 @@ namespace SnakeCore.Web.Brains
         }
 
 
+        private void EatIfHungry(List<WeightedMove> weightedMoves, GameState gameState)
+        {
+            if (gameState.Board.Food == null)
+                return;
+
+            var minFoodDist = int.MaxValue;
+            var moveClosestToFood = weightedMoves[0];
+            foreach (var weightedMove in weightedMoves)
+            {
+                foreach (var foodPosition in gameState.Board.Food)
+                {
+                    var dist = Math.Abs(foodPosition.X - weightedMove.NewX) + Math.Abs(foodPosition.Y - weightedMove.NewY);
+                    if (dist < minFoodDist)
+                    {
+                        minFoodDist = dist;
+                        moveClosestToFood = weightedMove;
+                    }
+                }
+            }
+
+            moveClosestToFood.Weight += 100 - gameState.You.Health;
+        }
+
+
         private void PredictFuture(List<WeightedMove> weightedMoves, GameState gameState)
         {
             foreach (var weightedMove in weightedMoves)
@@ -148,6 +176,15 @@ namespace SnakeCore.Web.Brains
                 new WeightedMove(LegalMove.Down, head.X, head.Y + 1),
                 new WeightedMove(LegalMove.Left, head.X - 1, head.Y)
             };
+        }
+
+
+        private void PrintWeightedMoves(List<WeightedMove> weightedMoves)
+        {
+            foreach (var weightedMove in weightedMoves)
+            {
+                Console.WriteLine($"{weightedMove.Move}: {weightedMove.Weight}");
+            }
         }
 
 
