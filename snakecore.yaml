@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snakecore-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: snakecore-web
+  template:
+    metadata:
+      labels:
+        app: snakecore-web
+    spec:
+      containers:
+      - name: snakecore-web
+        image: jonanders/snakecore:0.0.1
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: snakecore-web
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: snakecore-web
