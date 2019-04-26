@@ -22,6 +22,7 @@ namespace SnakeCore.Web.Brains
 
             AvoidWalls(moves, gameState);
             AvoidSnakes(moves, gameState);
+            PredictFuture(moves, gameState);
 
             var orderedMoves = moves
                 .OrderByDescending(x => x.Weight);
@@ -67,6 +68,39 @@ namespace SnakeCore.Web.Brains
                         }
                     }
                 }
+            }
+        }
+
+
+        private void PredictFuture(List<WeightedMove> weightedMoves, GameState gameState)
+        {
+            foreach (var weightedMove in weightedMoves)
+            {
+                // Adjust gameState
+                var futureGameState = gameState.Copy();
+                futureGameState.Turn++;
+                foreach (var snake in futureGameState.Board.Snakes)
+                {
+                    if (snake.Body.Count > 0)
+                        snake.Body.RemoveAt(snake.Body.Count - 1);
+                }
+                futureGameState.You.Body.RemoveAt(futureGameState.You.Body.Count - 1);
+                futureGameState.Board.Snakes[0].Body.Insert(0, new GameState.BodyPartPosition(weightedMove.NewX, weightedMove.NewY));
+                futureGameState.You.Body.Insert(0, new GameState.BodyPartPosition(weightedMove.NewX, weightedMove.NewY));
+
+                // Call AvoidWalls and AvoidSnakes
+                var futureWeightedMoves = InitWeightedMoves(futureGameState);
+                AvoidWalls(futureWeightedMoves, futureGameState);
+                AvoidSnakes(futureWeightedMoves, futureGameState);
+
+                // TODO: Call PredictFuture recursively if weightedMove >= 0
+
+                // Adjust weight
+                var bestFutureMove = futureWeightedMoves
+                    .OrderByDescending(x => x.Weight)
+                    .First();
+
+                weightedMove.Weight += (int)(bestFutureMove.Weight * 0.75);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace SnakeCore.Web
 {
@@ -20,6 +21,22 @@ namespace SnakeCore.Web
             public int Width;
             public IList<FoodPosition> Food;
             public IList<Snake> Snakes;
+
+
+            public BoardData Copy()
+            {
+                return new BoardData
+                {
+                    Height = this.Height,
+                    Width = this.Width,
+                    Food = this.Food?
+                        .Select(x => new FoodPosition(x.X, x.Y))
+                        .ToList(),
+                    Snakes = this.Snakes?
+                        .Select(x => x.Copy())
+                        .ToList()
+                };
+            }
         }
 
         public class FoodPosition
@@ -41,6 +58,20 @@ namespace SnakeCore.Web
             public string Name;
             public int Health;
             public IList<BodyPartPosition> Body;
+
+
+            public Snake Copy()
+            {
+                return new Snake
+                {
+                    Id = this.Id,
+                    Name = this.Name,
+                    Health = this.Health,
+                    Body = this.Body
+                        .Select(x => new BodyPartPosition(x.X, x.Y))
+                        .ToList()
+                };
+            }
         }
 
         public class BodyPartPosition
@@ -54,6 +85,18 @@ namespace SnakeCore.Web
 
             public int X;
             public int Y;
+        }
+
+
+        public GameState Copy()
+        {
+            return new GameState
+            {
+                Game = this.Game,
+                Turn = this.Turn,
+                Board = this.Board.Copy(),
+                You = this.You.Copy()
+            };
         }
     }
 }
