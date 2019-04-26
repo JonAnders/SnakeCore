@@ -1,2 +1,2 @@
 # SnakeCore
-A BattleSnake in dotnet core
+A [BattleSnake](https://play.battlesnake.io/) in dotnet core
