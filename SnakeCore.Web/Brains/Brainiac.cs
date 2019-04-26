@@ -22,6 +22,7 @@ namespace SnakeCore.Web.Brains
 
             AvoidWalls(moves, gameState);
             AvoidSnakes(moves, gameState);
+            ConsiderKilling(moves, gameState);
             PredictFuture(moves, gameState);
 
             var orderedMoves = moves
@@ -66,6 +67,37 @@ namespace SnakeCore.Web.Brains
                             else
                                 weightedMove.Weight -= 80;
                         }
+                    }
+                }
+            }
+        }
+
+
+        private void ConsiderKilling(List<WeightedMove> weightedMoves, GameState gameState)
+        {
+            var selfSize = gameState.You.Body.Count;
+
+            foreach (var weightedMove in weightedMoves)
+            {
+                for (int i = 1; i < gameState.Board.Snakes.Count; i++)
+                {
+                    var victim = gameState.Board.Snakes[i];
+                    var victimHead = victim.Body[0];
+                    var possibleVictimHeadPositions = new List<GameState.BodyPartPosition>
+                    {
+                        new GameState.BodyPartPosition(victimHead.X + 1, victimHead.Y),
+                        new GameState.BodyPartPosition(victimHead.X - 1, victimHead.Y),
+                        new GameState.BodyPartPosition(victimHead.X, victimHead.Y + 1),
+                        new GameState.BodyPartPosition(victimHead.X, victimHead.Y - 1)
+                    };
+                    possibleVictimHeadPositions.Remove(victim.Body[1]);
+
+                    if (possibleVictimHeadPositions.Any(x => x.X == weightedMove.NewX && x.Y == weightedMove.NewY))
+                    {
+                        if (selfSize > victim.Body.Count)
+                            weightedMove.Weight += 5;
+                        else
+                            weightedMove.Weight -= 50;
                     }
                 }
             }

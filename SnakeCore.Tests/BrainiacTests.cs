@@ -146,6 +146,48 @@ namespace SnakeCore.Tests
                         {
                             Body = new List<GameState.BodyPartPosition>
                             {
+                                new GameState.BodyPartPosition(1, 1),
+                                new GameState.BodyPartPosition(1, 2),
+                                new GameState.BodyPartPosition(1, 3),
+                                new GameState.BodyPartPosition(1, 4)
+                            }
+                        },
+                        new GameState.Snake
+                        {
+                            Body = new List<GameState.BodyPartPosition>
+                            {
+                                new GameState.BodyPartPosition(2, 2),
+                                new GameState.BodyPartPosition(2, 3),
+                                new GameState.BodyPartPosition(2, 4)
+                            }
+                        }
+                    }
+                }
+            };
+
+            gameState.You = gameState.Board.Snakes.First();
+
+            var move = this.brain.Move(gameState);
+
+            Assert.That(move, Is.EqualTo(LegalMove.Right));
+        }
+
+
+        [Test]
+        public void Test5()
+        {
+            var gameState = new GameState
+            {
+                Board = new GameState.BoardData
+                {
+                    Height = 5,
+                    Width = 5,
+                    Snakes = new List<GameState.Snake>
+                    {
+                        new GameState.Snake
+                        {
+                            Body = new List<GameState.BodyPartPosition>
+                            {
                                 new GameState.BodyPartPosition(2, 3),
                                 new GameState.BodyPartPosition(2, 4),
                                 new GameState.BodyPartPosition(3, 4),
@@ -172,7 +214,7 @@ namespace SnakeCore.Tests
 
         [TestCase(90, ExpectedResult = "right")]
         [TestCase(10, ExpectedResult = "left")]
-        public string Test5(int hp)
+        public string Test6(int hp)
         {
             var gameState = new GameState
             {
