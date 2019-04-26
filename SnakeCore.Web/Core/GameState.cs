@@ -48,6 +48,16 @@ namespace SnakeCore.Web
             }
 
 
+            public override bool Equals(object obj)
+            {
+                var other = obj as FoodPosition;
+                if (other == null)
+                    return false;
+
+                return other.X == this.X && other.Y == this.Y;
+            }
+
+
             public int X;
             public int Y;
         }

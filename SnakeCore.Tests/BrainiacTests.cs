@@ -206,14 +206,15 @@ namespace SnakeCore.Tests
                             Id = "1",
                             Body = new List<GameState.BodyPartPosition>
                             {
-                                new GameState.BodyPartPosition(2, 3),
-                                new GameState.BodyPartPosition(2, 4),
-                                new GameState.BodyPartPosition(3, 4),
                                 new GameState.BodyPartPosition(3, 3),
-                                new GameState.BodyPartPosition(3, 2),
+                                new GameState.BodyPartPosition(3, 4),
+                                new GameState.BodyPartPosition(4, 4),
+                                new GameState.BodyPartPosition(4, 3),
+                                new GameState.BodyPartPosition(4, 2),
+                                new GameState.BodyPartPosition(4, 1),
                                 new GameState.BodyPartPosition(3, 1),
                                 new GameState.BodyPartPosition(2, 1),
-                                new GameState.BodyPartPosition(1, 1),
+                                new GameState.BodyPartPosition(2, 2),
                                 new GameState.BodyPartPosition(1, 2),
                                 new GameState.BodyPartPosition(0, 2)
                             }
@@ -334,6 +335,94 @@ namespace SnakeCore.Tests
             var move = this.brain.Move(gameState);
 
             Assert.That(move, Is.EqualTo(LegalMove.Right));
+        }
+
+
+        [Test]
+        public void Test8()
+        {
+            var gameState = new GameState
+            {
+                Board = new GameState.BoardData
+                {
+                    Height = 5,
+                    Width = 5,
+                    Snakes = new List<GameState.Snake>
+                    {
+                        new GameState.Snake
+                        {
+                            Id = "1",
+                            Body = new List<GameState.BodyPartPosition>
+                            {
+                                new GameState.BodyPartPosition(2, 2),
+                                new GameState.BodyPartPosition(2, 3),
+                                new GameState.BodyPartPosition(3, 3),
+                                new GameState.BodyPartPosition(3, 2),
+                                new GameState.BodyPartPosition(3, 1),
+                                new GameState.BodyPartPosition(2, 1)
+                            }
+                        }
+                    }
+                }
+            };
+
+            gameState.You = gameState.Board.Snakes.First();
+
+            var move = this.brain.Move(gameState);
+
+            Assert.That(move, Is.EqualTo(LegalMove.Up));
+        }
+
+
+        [TestCase(true, ExpectedResult = "right")]
+        [TestCase(false, ExpectedResult = "up")]
+        public string Test9(bool includeFood)
+        {
+            var gameState = new GameState
+            {
+                Board = new GameState.BoardData
+                {
+                    Height = 5,
+                    Width = 5,
+                    Snakes = new List<GameState.Snake>
+                    {
+                        new GameState.Snake
+                        {
+                            Id = "1",
+                            Body = new List<GameState.BodyPartPosition>
+                            {
+                                new GameState.BodyPartPosition(2, 2),
+                                new GameState.BodyPartPosition(2, 3),
+                                new GameState.BodyPartPosition(2, 4)
+                            }
+                        },
+                        new GameState.Snake
+                        {
+                            Id = "2",
+                            Body = new List<GameState.BodyPartPosition>
+                            {
+                                new GameState.BodyPartPosition(4, 1),
+                                new GameState.BodyPartPosition(3, 1),
+                                new GameState.BodyPartPosition(2, 1)
+                            }
+                        }
+                    }
+                }
+            };
+
+            if (includeFood) {
+                gameState.Board.Food = new List<GameState.FoodPosition>
+                    {
+                        new GameState.FoodPosition(4, 0)
+                    };
+            }
+
+            gameState.You = gameState.Board.Snakes.First();
+            gameState.You.Health = 50;
+
+            var move = this.brain.Move(gameState);
+
+            return move.Move;
         }
     }
 }

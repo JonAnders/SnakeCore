@@ -70,15 +70,41 @@ namespace SnakeCore.Web.Brains
 
         private void AvoidSnakes(List<WeightedMove> weightedMoves, GameState gameState)
         {
+            var board = gameState.Board.Copy();
+
+            foreach (var snake in board.Snakes) {
+                if (snake.Id == gameState.You.Id)
+                    continue;
+
+                var head = snake.Body[0];
+                var isCloseToFood = board.Food != null && (
+                       board.Food.Contains(new GameState.FoodPosition(head.X + 1, head.Y))
+                    || board.Food.Contains(new GameState.FoodPosition(head.X - 1, head.Y))
+                    || board.Food.Contains(new GameState.FoodPosition(head.X, head.Y + 1))
+                    || board.Food.Contains(new GameState.FoodPosition(head.X, head.Y - 1)));
+                
+                if (!isCloseToFood)
+                    snake.Body.RemoveAt(snake.Body.Count - 1);
+            }
+
             foreach (var weightedMove in weightedMoves)
             {
-                foreach (var snake in gameState.Board.Snakes)
+                foreach (var snake in board.Snakes)
                 {
-                    foreach (var bodyPartPosition in snake.Body)
+                    var currentSnake = snake;
+                    var isMyself = snake.Id == gameState.You.Id;
+                    if (isMyself) {
+                        if (board.Food == null || !board.Food.Contains(new GameState.FoodPosition(weightedMove.NewX, weightedMove.NewY))) {
+                            currentSnake = currentSnake.Copy();
+                            currentSnake.Body.RemoveAt(snake.Body.Count - 1);
+                        }
+                    }
+
+                    foreach (var bodyPartPosition in currentSnake.Body)
                     {
                         if (bodyPartPosition.X == weightedMove.NewX && bodyPartPosition.Y == weightedMove.NewY)
                         {
-                            if (snake.Id == gameState.You.Id)
+                            if (isMyself)
                                 weightedMove.Weight -= 100;
                             else
                                 weightedMove.Weight -= 80;
