@@ -1,4 +1,4 @@
-﻿namespace SnakeCore.Web.Brains
+﻿namespace SnakeCore.Web
 {
     public class StartResponse
     {

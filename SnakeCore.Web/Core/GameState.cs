@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SnakeCore.Web.Brains
+namespace SnakeCore.Web
 {
     public class GameState
     {
