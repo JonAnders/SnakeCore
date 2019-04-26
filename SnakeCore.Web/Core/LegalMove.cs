@@ -7,6 +7,13 @@
             this.Move = move;
         }
 
+
+        public override string ToString()
+        {
+            return this.Move;
+        }
+
+
         public string Move { get; }
 
         public static readonly LegalMove Up = new LegalMove("up");

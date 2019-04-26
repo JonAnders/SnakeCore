@@ -7,6 +7,7 @@ namespace SnakeCore.Web
         public GameData Game;
         public int Turn;
         public BoardData Board;
+        public Snake You;
 
         public class GameData
         {
