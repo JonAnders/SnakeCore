@@ -24,6 +24,13 @@ namespace SnakeCore.Web
 
         public class FoodPosition
         {
+            public FoodPosition(int x, int y)
+            {
+                this.X = x;
+                this.Y = y;
+            }
+
+
             public int X;
             public int Y;
         }
@@ -38,6 +45,13 @@ namespace SnakeCore.Web
 
         public class BodyPartPosition
         {
+            public BodyPartPosition(int x, int y)
+            {
+                this.X = x;
+                this.Y = y;
+            }
+
+
             public int X;
             public int Y;
         }

@@ -71,6 +71,8 @@ namespace SnakeCore.Web.Controllers
                     return new Lefty();
                 case "spinner":
                     return new Spinner(this.logger);
+                case "brainiac":
+                    return new Brainiac();
             }
 
             throw new Exception($"Unkown brain: {brainName}");
