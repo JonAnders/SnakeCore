@@ -68,6 +68,42 @@ namespace SnakeCore.Tests
                             Body = new List<GameState.BodyPartPosition>
                             {
                                 new GameState.BodyPartPosition(2, 2),
+                                new GameState.BodyPartPosition(2, 3),
+                                new GameState.BodyPartPosition(3, 3),
+                                new GameState.BodyPartPosition(3, 2),
+                                new GameState.BodyPartPosition(3, 1),
+                                new GameState.BodyPartPosition(2, 1),
+                                new GameState.BodyPartPosition(1, 1)
+                            }
+                        }
+                    }
+                }
+            };
+
+            gameState.You = gameState.Board.Snakes.First();
+
+            var move = this.brain.Move(gameState);
+
+            Assert.That(move, Is.EqualTo(LegalMove.Left));
+        }
+
+
+        [Test]
+        public void Test3()
+        {
+            var gameState = new GameState
+            {
+                Board = new GameState.BoardData
+                {
+                    Height = 5,
+                    Width = 5,
+                    Snakes = new List<GameState.Snake>
+                    {
+                        new GameState.Snake
+                        {
+                            Body = new List<GameState.BodyPartPosition>
+                            {
+                                new GameState.BodyPartPosition(2, 2),
                                 new GameState.BodyPartPosition(3, 2),
                                 new GameState.BodyPartPosition(4, 2)
                             }
@@ -96,7 +132,7 @@ namespace SnakeCore.Tests
 
 
         [Test]
-        public void Test3()
+        public void Test4()
         {
             var gameState = new GameState
             {
@@ -136,7 +172,7 @@ namespace SnakeCore.Tests
 
         [TestCase(90, ExpectedResult = "right")]
         [TestCase(10, ExpectedResult = "left")]
-        public string Test4(int hp)
+        public string Test5(int hp)
         {
             var gameState = new GameState
             {

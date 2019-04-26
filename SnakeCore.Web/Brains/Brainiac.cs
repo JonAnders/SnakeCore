@@ -18,15 +18,10 @@ namespace SnakeCore.Web.Brains
 
         public LegalMove Move(GameState gameState)
         {
-            var moves = new List<WeightedMove>
-            {
-                new WeightedMove(LegalMove.Up),
-                new WeightedMove(LegalMove.Right),
-                new WeightedMove(LegalMove.Down),
-                new WeightedMove(LegalMove.Left)
-            };
+            var moves = InitWeightedMoves(gameState);
 
             AvoidWalls(moves, gameState);
+            AvoidSnakes(moves, gameState);
 
             var orderedMoves = moves
                 .OrderByDescending(x => x.Weight);
@@ -45,44 +40,65 @@ namespace SnakeCore.Web.Brains
         private void AvoidWalls(List<WeightedMove> weightedMoves, GameState gameState)
         {
             int boardSize = gameState.Board.Height;
-            var headPosition = gameState.You.Body[0];
 
             foreach (var weightedMove in weightedMoves)
             {
-                if (weightedMove.Move == LegalMove.Up)
+                if (weightedMove.NewX < 0 || weightedMove.NewX >= boardSize - 1 
+                    || weightedMove.NewY < 0|| weightedMove.NewY >= boardSize - 1)
+                    weightedMove.Weight -= 100;
+            }
+        }
+
+
+        private void AvoidSnakes(List<WeightedMove> weightedMoves, GameState gameState)
+        {
+            foreach (var weightedMove in weightedMoves)
+            {
+                foreach (var snake in gameState.Board.Snakes)
                 {
-                    if (headPosition.Y < 1)
-                        weightedMove.Weight -= 100;
-                }
-                else if (weightedMove.Move == LegalMove.Down)
-                {
-                    if (headPosition.Y >= boardSize - 1)
-                        weightedMove.Weight -= 100;
-                }
-                else if (weightedMove.Move == LegalMove.Right)
-                {
-                    if (headPosition.X >= boardSize - 1)
-                        weightedMove.Weight -= 100;
-                }
-                else if (weightedMove.Move == LegalMove.Left)
-                {
-                    if (headPosition.X < 1)
-                        weightedMove.Weight -= 100;
+                    foreach (var bodyPartPosition in snake.Body)
+                    {
+                        if (bodyPartPosition.X == weightedMove.NewX && bodyPartPosition.Y == weightedMove.NewY)
+                        {
+                            if (snake.Id == gameState.You.Id)
+                                weightedMove.Weight -= 100;
+                            else
+                                weightedMove.Weight -= 80;
+                        }
+                    }
                 }
             }
         }
 
 
+        private List<WeightedMove> InitWeightedMoves(GameState gameState)
+        {
+            var head = gameState.You.Body[0];
+
+            return new List<WeightedMove>
+            {
+                new WeightedMove(LegalMove.Up, head.X, head.Y - 1),
+                new WeightedMove(LegalMove.Right, head.X + 1, head.Y),
+                new WeightedMove(LegalMove.Down, head.X, head.Y + 1),
+                new WeightedMove(LegalMove.Left, head.X - 1, head.Y)
+            };
+        }
+
+
         private class WeightedMove
         {
-            public WeightedMove(LegalMove move)
+            public WeightedMove(LegalMove move, int newX, int newY)
             {
                 this.Move = move;
+                this.NewX = newX;
+                this.NewY = newY;
             }
 
 
             public LegalMove Move;
             public int Weight;
+            public int NewX;
+            public int NewY;
         }
     }
 }
