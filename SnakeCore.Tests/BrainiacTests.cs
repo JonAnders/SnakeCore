@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
 using NUnit.Framework;
 
 using SnakeCore.Web;
@@ -16,7 +19,15 @@ namespace SnakeCore.Tests
         [SetUp]
         public void Setup()
         {
-            this.brain = new Brainiac();
+            var serviceProvider = new ServiceCollection()
+                .AddLogging(x => x.AddConsole().SetMinimumLevel(LogLevel.Debug))
+                .BuildServiceProvider();
+
+            var factory = serviceProvider.GetService<ILoggerFactory>();
+
+            var logger = factory.CreateLogger<Brainiac>();
+
+            this.brain = new Brainiac(logger);
         }
 
 
@@ -33,6 +44,7 @@ namespace SnakeCore.Tests
                     {
                         new GameState.Snake
                         {
+                            Id = "1",
                             Body = new List<GameState.BodyPartPosition>
                             {
                                 new GameState.BodyPartPosition(2, 0),
@@ -65,6 +77,7 @@ namespace SnakeCore.Tests
                     {
                         new GameState.Snake
                         {
+                            Id = "1",
                             Body = new List<GameState.BodyPartPosition>
                             {
                                 new GameState.BodyPartPosition(2, 2),
@@ -101,6 +114,7 @@ namespace SnakeCore.Tests
                     {
                         new GameState.Snake
                         {
+                            Id = "1",
                             Body = new List<GameState.BodyPartPosition>
                             {
                                 new GameState.BodyPartPosition(2, 2),
@@ -110,6 +124,7 @@ namespace SnakeCore.Tests
                         },
                         new GameState.Snake
                         {
+                            Id = "2",
                             Body = new List<GameState.BodyPartPosition>
                             {
                                 new GameState.BodyPartPosition(3, 1),
@@ -144,6 +159,7 @@ namespace SnakeCore.Tests
                     {
                         new GameState.Snake
                         {
+                            Id = "1",
                             Body = new List<GameState.BodyPartPosition>
                             {
                                 new GameState.BodyPartPosition(1, 1),
@@ -154,6 +170,7 @@ namespace SnakeCore.Tests
                         },
                         new GameState.Snake
                         {
+                            Id = "2",
                             Body = new List<GameState.BodyPartPosition>
                             {
                                 new GameState.BodyPartPosition(2, 2),
@@ -186,6 +203,7 @@ namespace SnakeCore.Tests
                     {
                         new GameState.Snake
                         {
+                            Id = "1",
                             Body = new List<GameState.BodyPartPosition>
                             {
                                 new GameState.BodyPartPosition(2, 3),
@@ -226,6 +244,7 @@ namespace SnakeCore.Tests
                     {
                         new GameState.Snake
                         {
+                            Id = "1",
                             Body = new List<GameState.BodyPartPosition>
                             {
                                 new GameState.BodyPartPosition(2, 0),
@@ -235,6 +254,7 @@ namespace SnakeCore.Tests
                         },
                         new GameState.Snake
                         {
+                            Id = "2",
                             Body = new List<GameState.BodyPartPosition>
                             {
                                 new GameState.BodyPartPosition(1, 1),
@@ -256,6 +276,64 @@ namespace SnakeCore.Tests
             var move = this.brain.Move(gameState);
 
             return move.Move;
+        }
+
+
+        [Test]
+        public void Test7()
+        {
+            // Note: This test is a remake of an actual game that was lost
+            var gameState = new GameState
+            {
+                Board = new GameState.BoardData
+                {
+                    Height = 6,
+                    Width = 6,
+                    Snakes = new List<GameState.Snake>
+                    {
+                        new GameState.Snake
+                        {
+                            Id = "1",
+                            Body = new List<GameState.BodyPartPosition>
+                            {
+                                new GameState.BodyPartPosition(4, 0),
+                                new GameState.BodyPartPosition(4, 1),
+                                new GameState.BodyPartPosition(4, 2),
+                                new GameState.BodyPartPosition(4, 4),
+                                new GameState.BodyPartPosition(3, 4),
+                                new GameState.BodyPartPosition(3, 3),
+                                new GameState.BodyPartPosition(3, 2),
+                                new GameState.BodyPartPosition(3, 1),
+                                new GameState.BodyPartPosition(3, 0),
+                                new GameState.BodyPartPosition(2, 0),
+                                new GameState.BodyPartPosition(1, 0),
+                                new GameState.BodyPartPosition(0, 0)
+                            }
+                        },
+                        new GameState.Snake
+                        {
+                            Id = "2",
+                            Body = new List<GameState.BodyPartPosition>
+                            {
+                                new GameState.BodyPartPosition(3, 5),
+                                new GameState.BodyPartPosition(4, 5),
+                                new GameState.BodyPartPosition(5, 5)
+                            }
+                        }
+                    },
+                    Food = new List<GameState.FoodPosition>
+                    {
+                        new GameState.FoodPosition(0, 3)
+                    }
+                }
+            };
+
+            gameState.You = gameState.Board.Snakes.First();
+            gameState.You.Health = 95;
+
+            var move = this.brain.Move(gameState);
+
+            Assert.That(move, Is.EqualTo(LegalMove.Right));
         }
     }
 }

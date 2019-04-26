@@ -1,11 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+
+using Microsoft.Extensions.Logging;
 
 namespace SnakeCore.Web.Brains
 {
     public class Brainiac : IBrain
     {
+        private readonly ILogger logger;
+
+
+        public Brainiac(ILogger logger)
+        {
+            this.logger = logger;
+        }
+
+
         public StartResponse Start(GameState gameState)
         {
             return new StartResponse
@@ -49,8 +61,8 @@ namespace SnakeCore.Web.Brains
 
             foreach (var weightedMove in weightedMoves)
             {
-                if (weightedMove.NewX < 0 || weightedMove.NewX >= boardSize - 1 
-                    || weightedMove.NewY < 0|| weightedMove.NewY >= boardSize - 1)
+                if (weightedMove.NewX < 0 || weightedMove.NewX >= boardSize
+                    || weightedMove.NewY < 0|| weightedMove.NewY >= boardSize)
                     weightedMove.Weight -= 100;
             }
         }
@@ -81,11 +93,11 @@ namespace SnakeCore.Web.Brains
         {
             var selfSize = gameState.You.Body.Count;
 
+            var victims = gameState.Board.Snakes.Where(x => x.Id != gameState.You.Id).ToList();
             foreach (var weightedMove in weightedMoves)
             {
-                for (int i = 1; i < gameState.Board.Snakes.Count; i++)
+                foreach (var victim in victims)
                 {
-                    var victim = gameState.Board.Snakes[i];
                     var victimHead = victim.Body[0];
                     var possibleVictimHeadPositions = new List<GameState.BodyPartPosition>
                     {
@@ -181,10 +193,15 @@ namespace SnakeCore.Web.Brains
 
         private void PrintWeightedMoves(List<WeightedMove> weightedMoves)
         {
+            var sb = new StringBuilder();
+            sb.AppendLine();
+            sb.AppendLine("Weights:");
             foreach (var weightedMove in weightedMoves)
             {
-                Console.WriteLine($"{weightedMove.Move}: {weightedMove.Weight}");
+                sb.AppendLine($"{weightedMove.Move}: {weightedMove.Weight}");
             }
+
+            this.logger.LogDebug(sb.ToString());
         }
 
 
