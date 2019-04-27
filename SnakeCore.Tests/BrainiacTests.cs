@@ -32,7 +32,7 @@ namespace SnakeCore.Tests
 
 
         [Test]
-        public void Test1()
+        public void Test01()
         {
             var gameState = new GameState
             {
@@ -65,7 +65,7 @@ namespace SnakeCore.Tests
 
 
         [Test]
-        public void Test2()
+        public void Test02()
         {
             var gameState = new GameState
             {
@@ -102,7 +102,7 @@ namespace SnakeCore.Tests
 
 
         [Test]
-        public void Test3()
+        public void Test03()
         {
             var gameState = new GameState
             {
@@ -147,7 +147,7 @@ namespace SnakeCore.Tests
 
 
         [Test]
-        public void Test4()
+        public void Test04()
         {
             var gameState = new GameState
             {
@@ -191,7 +191,7 @@ namespace SnakeCore.Tests
 
 
         [Test]
-        public void Test5()
+        public void Test05()
         {
             var gameState = new GameState
             {
@@ -233,7 +233,7 @@ namespace SnakeCore.Tests
 
         [TestCase(90, ExpectedResult = "right")]
         [TestCase(10, ExpectedResult = "left")]
-        public string Test6(int hp)
+        public string Test06(int hp)
         {
             var gameState = new GameState
             {
@@ -281,7 +281,7 @@ namespace SnakeCore.Tests
 
 
         [Test]
-        public void Test7()
+        public void Test07()
         {
             // Note: This test is a remake of an actual game that was lost
             var gameState = new GameState
@@ -339,7 +339,7 @@ namespace SnakeCore.Tests
 
 
         [Test]
-        public void Test8()
+        public void Test08()
         {
             var gameState = new GameState
             {
@@ -376,7 +376,7 @@ namespace SnakeCore.Tests
 
         [TestCase(true, ExpectedResult = "right")]
         [TestCase(false, ExpectedResult = "up")]
-        public string Test9(bool includeFood)
+        public string Test09(bool includeFood)
         {
             var gameState = new GameState
             {
@@ -423,6 +423,50 @@ namespace SnakeCore.Tests
             var move = this.brain.Move(gameState);
 
             return move.Move;
+        }
+
+
+        [Test]
+        public void Test10()
+        {
+            // Note: This test is a remake of an actual game that was lost
+            var gameState = new GameState
+            {
+                Board = new GameState.BoardData
+                {
+                    Height = 5,
+                    Width = 5,
+                    Snakes = new List<GameState.Snake>
+                    {
+                        new GameState.Snake
+                        {
+                            Id = "1",
+                            Body = new List<GameState.BodyPartPosition>
+                            {
+                                new GameState.BodyPartPosition(4, 3),
+                                new GameState.BodyPartPosition(4, 2),
+                                new GameState.BodyPartPosition(4, 1)
+                            }
+                        },
+                        new GameState.Snake
+                        {
+                            Id = "2",
+                            Body = new List<GameState.BodyPartPosition>
+                            {
+                                new GameState.BodyPartPosition(3, 4),
+                                new GameState.BodyPartPosition(3, 3),
+                                new GameState.BodyPartPosition(2, 3)
+                            }
+                        }
+                    }
+                }
+            };
+
+            gameState.You = gameState.Board.Snakes.First();
+
+            var move = this.brain.Move(gameState);
+
+            Assert.That(move, Is.EqualTo(LegalMove.Down));
         }
     }
 }

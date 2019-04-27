@@ -34,9 +34,17 @@ namespace SnakeCore.Web.Brains
             var moves = InitWeightedMoves(gameState);
 
             AvoidWalls(moves, gameState);
+            PrintWeightedMoves(moves, "after AvoidWalls");
+
             AvoidSnakes(moves, gameState);
+            PrintWeightedMoves(moves, "after AvoidSnakes");
+
             ConsiderKilling(moves, gameState);
+            PrintWeightedMoves(moves, "after ConsiderKilling");
+
             EatIfHungry(moves, gameState);
+            PrintWeightedMoves(moves, "after EatIfHungry");
+
             PredictFuture(moves, gameState);
 
             PrintWeightedMoves(moves);
@@ -139,7 +147,7 @@ namespace SnakeCore.Web.Brains
                         if (selfSize > victim.Body.Count)
                             weightedMove.Weight += 5;
                         else
-                            weightedMove.Weight -= 50;
+                            weightedMove.Weight -= 30;
                     }
                 }
             }
@@ -198,7 +206,7 @@ namespace SnakeCore.Web.Brains
                     .OrderByDescending(x => x.Weight)
                     .First();
 
-                weightedMove.Weight += (int)(bestFutureMove.Weight * 0.75);
+                weightedMove.Weight += (int)(bestFutureMove.Weight * 0.5);
             }
         }
 
@@ -217,11 +225,16 @@ namespace SnakeCore.Web.Brains
         }
 
 
-        private void PrintWeightedMoves(List<WeightedMove> weightedMoves)
+        private void PrintWeightedMoves(List<WeightedMove> weightedMoves, string when = "")
         {
             var sb = new StringBuilder();
             sb.AppendLine();
-            sb.AppendLine("Weights:");
+            sb.Append("Weights");
+            if (!string.IsNullOrEmpty(when)) {
+                sb.Append(" ");
+                sb.Append(when);
+            }
+            sb.AppendLine(":");
             foreach (var weightedMove in weightedMoves)
             {
                 sb.AppendLine($"{weightedMove.Move}: {weightedMove.Weight}");
