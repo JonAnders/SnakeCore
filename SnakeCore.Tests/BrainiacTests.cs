@@ -468,5 +468,48 @@ namespace SnakeCore.Tests
 
             Assert.That(move, Is.EqualTo(LegalMove.Down));
         }
+
+
+        [Test]
+        public void Test11()
+        {
+            var gameState = new GameState
+            {
+                Board = new GameState.BoardData
+                {
+                    Height = 5,
+                    Width = 5,
+                    Snakes = new List<GameState.Snake>
+                    {
+                        new GameState.Snake
+                        {
+                            Id = "1",
+                            Body = new List<GameState.BodyPartPosition>
+                            {
+                                new GameState.BodyPartPosition(3, 3),
+                                new GameState.BodyPartPosition(3, 4),
+                                new GameState.BodyPartPosition(4, 4),
+                                new GameState.BodyPartPosition(4, 3),
+                                new GameState.BodyPartPosition(4, 2),
+                                new GameState.BodyPartPosition(4, 1),
+                                new GameState.BodyPartPosition(4, 0),
+                                new GameState.BodyPartPosition(3, 0),
+                                new GameState.BodyPartPosition(2, 0),
+                                new GameState.BodyPartPosition(2, 1),
+                                new GameState.BodyPartPosition(2, 2),
+                                new GameState.BodyPartPosition(1, 2),
+                                new GameState.BodyPartPosition(0, 2)
+                            }
+                        }
+                    }
+                }
+            };
+
+            gameState.You = gameState.Board.Snakes.First();
+
+            var move = this.brain.Move(gameState);
+
+            Assert.That(move, Is.EqualTo(LegalMove.Left));
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -31,6 +32,8 @@ namespace SnakeCore.Web.Brains
 
         public LegalMove Move(GameState gameState)
         {
+            var stopwatch = Stopwatch.StartNew();
+
             var moves = InitWeightedMoves(gameState);
 
             AvoidWalls(moves, gameState);
@@ -53,6 +56,8 @@ namespace SnakeCore.Web.Brains
                 .OrderByDescending(x => x.Weight);
 
             var selectedMove = orderedMoves.First();
+
+            this.logger.LogDebug($"Time used: {stopwatch.ElapsedMilliseconds} ms");
 
             return selectedMove.Move;
         }
@@ -178,7 +183,7 @@ namespace SnakeCore.Web.Brains
         }
 
 
-        private void PredictFuture(List<WeightedMove> weightedMoves, GameState gameState)
+        private void PredictFuture(List<WeightedMove> weightedMoves, GameState gameState, int stepsIntoFuture = 1)
         {
             foreach (var weightedMove in weightedMoves)
             {
@@ -190,6 +195,7 @@ namespace SnakeCore.Web.Brains
                     if (snake.Body.Count > 0)
                         snake.Body.RemoveAt(snake.Body.Count - 1);
                 }
+                futureGameState.Board.Snakes = futureGameState.Board.Snakes.Where(x => x.Body.Count > 0).ToList();
                 futureGameState.You.Body.RemoveAt(futureGameState.You.Body.Count - 1);
                 futureGameState.Board.Snakes[0].Body.Insert(0, new GameState.BodyPartPosition(weightedMove.NewX, weightedMove.NewY));
                 futureGameState.You.Body.Insert(0, new GameState.BodyPartPosition(weightedMove.NewX, weightedMove.NewY));
@@ -199,7 +205,9 @@ namespace SnakeCore.Web.Brains
                 AvoidWalls(futureWeightedMoves, futureGameState);
                 AvoidSnakes(futureWeightedMoves, futureGameState);
 
-                // TODO: Call PredictFuture recursively if weightedMove >= 0
+                // Call PredictFuture recursively if weightedMove >= 0
+                if (stepsIntoFuture < 5)
+                    PredictFuture(futureWeightedMoves.Where(x => x.Weight >= 0).ToList(), futureGameState, stepsIntoFuture + 1);
 
                 // Adjust weight
                 var bestFutureMove = futureWeightedMoves
