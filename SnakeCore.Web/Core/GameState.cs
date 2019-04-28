@@ -77,7 +77,7 @@ namespace SnakeCore.Web
                     Id = this.Id,
                     Name = this.Name,
                     Health = this.Health,
-                    Body = this.Body
+                    Body = this.Body?
                         .Select(x => new BodyPartPosition(x.X, x.Y))
                         .ToList()
                 };
@@ -115,7 +115,7 @@ namespace SnakeCore.Web
                 Game = this.Game,
                 Turn = this.Turn,
                 Board = this.Board.Copy(),
-                You = this.You.Copy()
+                You = this.You?.Copy()
             };
         }
     }
