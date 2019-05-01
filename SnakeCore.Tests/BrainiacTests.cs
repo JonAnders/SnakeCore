@@ -34,244 +34,58 @@ namespace SnakeCore.Tests
         [Test]
         public void Test01()
         {
-            var gameState = new GameState
-            {
-                Board = new GameState.BoardData
-                {
-                    Height = 5,
-                    Width = 5,
-                    Snakes = new List<GameState.Snake>
-                    {
-                        new GameState.Snake
-                        {
-                            Id = "1",
-                            Body = new List<GameState.BodyPartPosition>
-                            {
-                                new GameState.BodyPartPosition(2, 0),
-                                new GameState.BodyPartPosition(2, 1),
-                                new GameState.BodyPartPosition(2, 2)
-                            }
-                        }
-                    }
-                }
-            };
-
-            gameState.You = gameState.Board.Snakes.First();
+            GameState gameState = TestCases.Test01();
 
             var move = this.brain.Move(gameState);
 
             Assert.That(move, Is.EqualTo(LegalMove.Right));
         }
 
-
         [Test]
         public void Test02()
         {
-            var gameState = new GameState
-            {
-                Board = new GameState.BoardData
-                {
-                    Height = 5,
-                    Width = 5,
-                    Snakes = new List<GameState.Snake>
-                    {
-                        new GameState.Snake
-                        {
-                            Id = "1",
-                            Body = new List<GameState.BodyPartPosition>
-                            {
-                                new GameState.BodyPartPosition(2, 2),
-                                new GameState.BodyPartPosition(2, 3),
-                                new GameState.BodyPartPosition(3, 3),
-                                new GameState.BodyPartPosition(3, 2),
-                                new GameState.BodyPartPosition(3, 1),
-                                new GameState.BodyPartPosition(2, 1),
-                                new GameState.BodyPartPosition(1, 1)
-                            }
-                        }
-                    }
-                }
-            };
-
-            gameState.You = gameState.Board.Snakes.First();
+            GameState gameState = TestCases.Test02();
 
             var move = this.brain.Move(gameState);
 
             Assert.That(move, Is.EqualTo(LegalMove.Left));
         }
 
-
         [Test]
         public void Test03()
         {
-            var gameState = new GameState
-            {
-                Board = new GameState.BoardData
-                {
-                    Height = 5,
-                    Width = 5,
-                    Snakes = new List<GameState.Snake>
-                    {
-                        new GameState.Snake
-                        {
-                            Id = "1",
-                            Body = new List<GameState.BodyPartPosition>
-                            {
-                                new GameState.BodyPartPosition(2, 2),
-                                new GameState.BodyPartPosition(3, 2),
-                                new GameState.BodyPartPosition(4, 2)
-                            }
-                        },
-                        new GameState.Snake
-                        {
-                            Id = "2",
-                            Body = new List<GameState.BodyPartPosition>
-                            {
-                                new GameState.BodyPartPosition(3, 1),
-                                new GameState.BodyPartPosition(2, 1),
-                                new GameState.BodyPartPosition(1, 1),
-                                new GameState.BodyPartPosition(1, 2),
-                                new GameState.BodyPartPosition(1, 3)
-                            }
-                        }
-                    }
-                }
-            };
-
-            gameState.You = gameState.Board.Snakes.First();
+            GameState gameState = TestCases.Test03();
 
             var move = this.brain.Move(gameState);
 
             Assert.That(move, Is.EqualTo(LegalMove.Down));
         }
 
-
         [Test]
         public void Test04()
         {
-            var gameState = new GameState
-            {
-                Board = new GameState.BoardData
-                {
-                    Height = 5,
-                    Width = 5,
-                    Snakes = new List<GameState.Snake>
-                    {
-                        new GameState.Snake
-                        {
-                            Id = "1",
-                            Body = new List<GameState.BodyPartPosition>
-                            {
-                                new GameState.BodyPartPosition(1, 1),
-                                new GameState.BodyPartPosition(1, 2),
-                                new GameState.BodyPartPosition(1, 3),
-                                new GameState.BodyPartPosition(1, 4)
-                            }
-                        },
-                        new GameState.Snake
-                        {
-                            Id = "2",
-                            Body = new List<GameState.BodyPartPosition>
-                            {
-                                new GameState.BodyPartPosition(2, 2),
-                                new GameState.BodyPartPosition(2, 3),
-                                new GameState.BodyPartPosition(2, 4)
-                            }
-                        }
-                    }
-                }
-            };
-
-            gameState.You = gameState.Board.Snakes.First();
+            GameState gameState = TestCases.Test04();
 
             var move = this.brain.Move(gameState);
 
             Assert.That(move, Is.EqualTo(LegalMove.Right));
         }
 
-
         [Test]
         public void Test05()
         {
-            var gameState = new GameState
-            {
-                Board = new GameState.BoardData
-                {
-                    Height = 5,
-                    Width = 5,
-                    Snakes = new List<GameState.Snake>
-                    {
-                        new GameState.Snake
-                        {
-                            Id = "1",
-                            Body = new List<GameState.BodyPartPosition>
-                            {
-                                new GameState.BodyPartPosition(3, 3),
-                                new GameState.BodyPartPosition(3, 4),
-                                new GameState.BodyPartPosition(4, 4),
-                                new GameState.BodyPartPosition(4, 3),
-                                new GameState.BodyPartPosition(4, 2),
-                                new GameState.BodyPartPosition(4, 1),
-                                new GameState.BodyPartPosition(3, 1),
-                                new GameState.BodyPartPosition(2, 1),
-                                new GameState.BodyPartPosition(2, 2),
-                                new GameState.BodyPartPosition(1, 2),
-                                new GameState.BodyPartPosition(0, 2)
-                            }
-                        }
-                    }
-                }
-            };
-
-            gameState.You = gameState.Board.Snakes.First();
+            GameState gameState = TestCases.Test05();
 
             var move = this.brain.Move(gameState);
 
             Assert.That(move, Is.EqualTo(LegalMove.Left));
         }
 
-
         [TestCase(90, ExpectedResult = "right")]
         [TestCase(10, ExpectedResult = "left")]
         public string Test06(int hp)
         {
-            var gameState = new GameState
-            {
-                Board = new GameState.BoardData
-                {
-                    Height = 5,
-                    Width = 5,
-                    Snakes = new List<GameState.Snake>
-                    {
-                        new GameState.Snake
-                        {
-                            Id = "1",
-                            Body = new List<GameState.BodyPartPosition>
-                            {
-                                new GameState.BodyPartPosition(2, 0),
-                                new GameState.BodyPartPosition(2, 1),
-                                new GameState.BodyPartPosition(2, 2)
-                            }
-                        },
-                        new GameState.Snake
-                        {
-                            Id = "2",
-                            Body = new List<GameState.BodyPartPosition>
-                            {
-                                new GameState.BodyPartPosition(1, 1),
-                                new GameState.BodyPartPosition(1, 2),
-                                new GameState.BodyPartPosition(1, 3)
-                            }
-                        }
-                    },
-                    Food = new List<GameState.FoodPosition>
-                    {
-                        new GameState.FoodPosition(0, 0)
-                    }
-                }
-            };
-
-            gameState.You = gameState.Board.Snakes.First();
+            GameState gameState = TestCases.Test06();
             gameState.You.Health = hp;
 
             var move = this.brain.Move(gameState);
@@ -279,145 +93,31 @@ namespace SnakeCore.Tests
             return move.Move;
         }
 
-
         [Test]
         public void Test07()
         {
-            // Note: This test is a remake of an actual game that was lost
-            var gameState = new GameState
-            {
-                Board = new GameState.BoardData
-                {
-                    Height = 6,
-                    Width = 6,
-                    Snakes = new List<GameState.Snake>
-                    {
-                        new GameState.Snake
-                        {
-                            Id = "1",
-                            Body = new List<GameState.BodyPartPosition>
-                            {
-                                new GameState.BodyPartPosition(4, 0),
-                                new GameState.BodyPartPosition(4, 1),
-                                new GameState.BodyPartPosition(4, 2),
-                                new GameState.BodyPartPosition(4, 4),
-                                new GameState.BodyPartPosition(3, 4),
-                                new GameState.BodyPartPosition(3, 3),
-                                new GameState.BodyPartPosition(3, 2),
-                                new GameState.BodyPartPosition(3, 1),
-                                new GameState.BodyPartPosition(3, 0),
-                                new GameState.BodyPartPosition(2, 0),
-                                new GameState.BodyPartPosition(1, 0),
-                                new GameState.BodyPartPosition(0, 0)
-                            }
-                        },
-                        new GameState.Snake
-                        {
-                            Id = "2",
-                            Body = new List<GameState.BodyPartPosition>
-                            {
-                                new GameState.BodyPartPosition(3, 5),
-                                new GameState.BodyPartPosition(4, 5),
-                                new GameState.BodyPartPosition(5, 5)
-                            }
-                        }
-                    },
-                    Food = new List<GameState.FoodPosition>
-                    {
-                        new GameState.FoodPosition(0, 3)
-                    }
-                }
-            };
-
-            gameState.You = gameState.Board.Snakes.First();
-            gameState.You.Health = 95;
+            GameState gameState = TestCases.Test07();
 
             var move = this.brain.Move(gameState);
 
             Assert.That(move, Is.EqualTo(LegalMove.Right));
         }
 
-
         [Test]
         public void Test08()
         {
-            var gameState = new GameState
-            {
-                Board = new GameState.BoardData
-                {
-                    Height = 5,
-                    Width = 5,
-                    Snakes = new List<GameState.Snake>
-                    {
-                        new GameState.Snake
-                        {
-                            Id = "1",
-                            Body = new List<GameState.BodyPartPosition>
-                            {
-                                new GameState.BodyPartPosition(2, 2),
-                                new GameState.BodyPartPosition(2, 3),
-                                new GameState.BodyPartPosition(3, 3),
-                                new GameState.BodyPartPosition(3, 2),
-                                new GameState.BodyPartPosition(3, 1),
-                                new GameState.BodyPartPosition(2, 1)
-                            }
-                        }
-                    }
-                }
-            };
-
-            gameState.You = gameState.Board.Snakes.First();
+            GameState gameState = TestCases.Test08();
 
             var move = this.brain.Move(gameState);
 
             Assert.That(move, Is.EqualTo(LegalMove.Up));
         }
 
-
         [TestCase(true, ExpectedResult = "right")]
         [TestCase(false, ExpectedResult = "up")]
         public string Test09(bool includeFood)
         {
-            var gameState = new GameState
-            {
-                Board = new GameState.BoardData
-                {
-                    Height = 5,
-                    Width = 5,
-                    Snakes = new List<GameState.Snake>
-                    {
-                        new GameState.Snake
-                        {
-                            Id = "1",
-                            Body = new List<GameState.BodyPartPosition>
-                            {
-                                new GameState.BodyPartPosition(2, 2),
-                                new GameState.BodyPartPosition(2, 3),
-                                new GameState.BodyPartPosition(2, 4)
-                            }
-                        },
-                        new GameState.Snake
-                        {
-                            Id = "2",
-                            Body = new List<GameState.BodyPartPosition>
-                            {
-                                new GameState.BodyPartPosition(4, 1),
-                                new GameState.BodyPartPosition(3, 1),
-                                new GameState.BodyPartPosition(2, 1)
-                            }
-                        }
-                    }
-                }
-            };
-
-            if (includeFood) {
-                gameState.Board.Food = new List<GameState.FoodPosition>
-                    {
-                        new GameState.FoodPosition(4, 0)
-                    };
-            }
-
-            gameState.You = gameState.Board.Snakes.First();
+            GameState gameState = TestCases.Test09(includeFood);
             gameState.You.Health = 50;
 
             var move = this.brain.Move(gameState);
@@ -425,87 +125,20 @@ namespace SnakeCore.Tests
             return move.Move;
         }
 
-
         [Test]
         public void Test10()
         {
-            // Note: This test is a remake of an actual game that was lost
-            var gameState = new GameState
-            {
-                Board = new GameState.BoardData
-                {
-                    Height = 5,
-                    Width = 5,
-                    Snakes = new List<GameState.Snake>
-                    {
-                        new GameState.Snake
-                        {
-                            Id = "1",
-                            Body = new List<GameState.BodyPartPosition>
-                            {
-                                new GameState.BodyPartPosition(4, 3),
-                                new GameState.BodyPartPosition(4, 2),
-                                new GameState.BodyPartPosition(4, 1)
-                            }
-                        },
-                        new GameState.Snake
-                        {
-                            Id = "2",
-                            Body = new List<GameState.BodyPartPosition>
-                            {
-                                new GameState.BodyPartPosition(3, 4),
-                                new GameState.BodyPartPosition(3, 3),
-                                new GameState.BodyPartPosition(2, 3)
-                            }
-                        }
-                    }
-                }
-            };
-
-            gameState.You = gameState.Board.Snakes.First();
+            GameState gameState = TestCases.Test10();
 
             var move = this.brain.Move(gameState);
 
             Assert.That(move, Is.EqualTo(LegalMove.Down));
         }
 
-
         [Test]
         public void Test11()
         {
-            var gameState = new GameState
-            {
-                Board = new GameState.BoardData
-                {
-                    Height = 5,
-                    Width = 5,
-                    Snakes = new List<GameState.Snake>
-                    {
-                        new GameState.Snake
-                        {
-                            Id = "1",
-                            Body = new List<GameState.BodyPartPosition>
-                            {
-                                new GameState.BodyPartPosition(3, 3),
-                                new GameState.BodyPartPosition(3, 4),
-                                new GameState.BodyPartPosition(4, 4),
-                                new GameState.BodyPartPosition(4, 3),
-                                new GameState.BodyPartPosition(4, 2),
-                                new GameState.BodyPartPosition(4, 1),
-                                new GameState.BodyPartPosition(4, 0),
-                                new GameState.BodyPartPosition(3, 0),
-                                new GameState.BodyPartPosition(2, 0),
-                                new GameState.BodyPartPosition(2, 1),
-                                new GameState.BodyPartPosition(2, 2),
-                                new GameState.BodyPartPosition(1, 2),
-                                new GameState.BodyPartPosition(0, 2)
-                            }
-                        }
-                    }
-                }
-            };
-
-            gameState.You = gameState.Board.Snakes.First();
+            GameState gameState = TestCases.Test11();
 
             var move = this.brain.Move(gameState);
 
