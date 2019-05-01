@@ -1,9 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SnakeCore.Web.Brains
 {
     public class Nostradamus : IBrain
     {
+        private readonly GameEngine gameEngine;
+
+
+        public Nostradamus()
+        {
+            this.gameEngine = new GameEngine();
+        }
+
         public StartResponse Start(GameState gameState)
         {
             return new StartResponse
@@ -17,15 +27,47 @@ namespace SnakeCore.Web.Brains
 
         public LegalMove Move(GameState gameState)
         {
-            return LegalMove.Down;
+            var indexOfMyself = gameState.Board.Snakes.IndexOf(gameState.Board.Snakes.First(x => x.Id == gameState.You.Id));
+            var move = GetMostSurvivableMove(gameState.Board, indexOfMyself);
+
+            return move;
         }
 
+        private LegalMove GetMostSurvivableMove(GameState.BoardData board, int indexOfMyself)
+        {
+            var permutations = GetPossibleMovesPermutations(board.Snakes.Count);
+
+            var possibleFutures = new GameState.BoardData[permutations.Length];
+
+            var survivableFutures = new Dictionary<LegalMove, int>
+            {
+                { LegalMove.Up, 0 },
+                { LegalMove.Down, 0 },
+                { LegalMove.Left, 0 },
+                { LegalMove.Right, 0 }
+            };
+
+            for (int i = 0; i < permutations.Length; i++)
+            {
+                possibleFutures[i] = gameEngine.ProcessMoves(board, permutations[i]);
+
+                if (possibleFutures[i].Snakes[indexOfMyself].Health > 0)
+                    survivableFutures[permutations[i][indexOfMyself]]++;
+            }
+
+            foreach (var survivableFuture in survivableFutures)
+            {
+                Console.WriteLine($"{survivableFuture.Key}: {survivableFuture.Value}");
+            }
+
+            return survivableFutures.First(x => x.Value == survivableFutures.Max(y => y.Value)).Key;
+        }
 
         public void End(GameState gameState)
         {
         }
 
-        public LegalMove[][] GetPossibleMoves(int numSnakes)
+        public LegalMove[][] GetPossibleMovesPermutations(int numSnakes)
         {
             var allLegalMoves = new LegalMove[] { LegalMove.Up, LegalMove.Down, LegalMove.Left, LegalMove.Right };
 
@@ -47,7 +89,7 @@ namespace SnakeCore.Web.Brains
 
                 for (int i = 0; i < allLegalMoves.Length; i++)
                 {
-                    var possibleMoves = GetPossibleMoves(numSnakes - 1);
+                    var possibleMoves = GetPossibleMovesPermutations(numSnakes - 1);
 
                     for (int j = 0; j < possibleMoves.Length; j++)
                     {
@@ -55,7 +97,7 @@ namespace SnakeCore.Web.Brains
                         var newPossibleFuture = new LegalMove[possibleMove.Length + 1];
                         newPossibleFuture[0] = allLegalMoves[i];
                         possibleMove.CopyTo(newPossibleFuture, 1);
-                        moves[(i * allLegalMoves.Length) + j] = newPossibleFuture;
+                        moves[(i * possibleMoves.Length) + j] = newPossibleFuture;
                     }
                 }
 
