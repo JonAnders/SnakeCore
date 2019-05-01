@@ -28,6 +28,9 @@ namespace SnakeCore.Web
 
                 snake.Body.Insert(0, newHead);
                 snake.Body.RemoveAt(snake.Body.Count - 1);
+
+                if (newHead.X < 0 || newHead.X > board.Width - 1 || newHead.Y < 0 || newHead.Y > board.Height - 1)
+                    snake.Health = 0;
             }
 
             return newBoard;

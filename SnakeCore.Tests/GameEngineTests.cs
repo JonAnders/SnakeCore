@@ -60,5 +60,18 @@ namespace SnakeCore.Tests
             Assert.That(newBoard.Snakes[0].Body, Is.EqualTo(new List<BodyPartPosition> { new BodyPartPosition(1, 3), new BodyPartPosition(1, 2), new BodyPartPosition(1, 2) }));
             Assert.That(newBoard.Snakes[1].Body, Is.EqualTo(new List<BodyPartPosition> { new BodyPartPosition(4, 2), new BodyPartPosition(3, 2), new BodyPartPosition(3, 2) }));
         }
+
+
+        [Test]
+        public void ProcessMoves_MoveIntoUpperWallWithFullHealth_SnakeGetsZeroHealth()
+        {
+            var board = TestCases.Test01().Board;
+
+            var moves = new LegalMove[] { LegalMove.Up };
+
+            var newBoard = this.gameEngine.ProcessMoves(board, moves);
+
+            Assert.That(newBoard.Snakes[0].Health, Is.EqualTo(0));
+        }
     }
 }
