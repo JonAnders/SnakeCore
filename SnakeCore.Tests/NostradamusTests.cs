@@ -58,6 +58,21 @@ namespace SnakeCore.Tests
 
 
         [Test]
+        public void GetPossibleMovesPermutations_EightSnakes_Returns65536Permutations()
+        {
+            var stopwatch = Stopwatch.StartNew();
+            var permutations = this.brain.GetPossibleMovesPermutations(8);
+            Console.WriteLine(stopwatch.Elapsed);
+
+            Assert.That(permutations.Length, Is.EqualTo(65536));
+
+            Assert.That(permutations[0], Is.EqualTo(new LegalMove[] { LegalMove.Up, LegalMove.Up, LegalMove.Up, LegalMove.Up, LegalMove.Up, LegalMove.Up, LegalMove.Up, LegalMove.Up }));
+            Assert.That(permutations[4], Is.EqualTo(new LegalMove[] { LegalMove.Up, LegalMove.Up, LegalMove.Up, LegalMove.Up, LegalMove.Up, LegalMove.Up, LegalMove.Down, LegalMove.Up }));
+            Assert.That(permutations[65535], Is.EqualTo(new LegalMove[] { LegalMove.Right, LegalMove.Right, LegalMove.Right, LegalMove.Right, LegalMove.Right, LegalMove.Right, LegalMove.Right, LegalMove.Right }));
+        }
+
+
+        [Test]
         public void Test01()
         {
             var gameState = TestCases.Test01();
@@ -93,6 +108,19 @@ namespace SnakeCore.Tests
             Console.WriteLine(stopwatch.Elapsed);
 
             Assert.That(move, Is.EqualTo(LegalMove.Down));
+        }
+
+
+        [Test]
+        public void Test12()
+        {
+            var gameState = TestCases.Test12();
+
+            var stopwatch = Stopwatch.StartNew();
+            var move = this.brain.Move(gameState);
+            Console.WriteLine(stopwatch.Elapsed);
+
+            Assert.That(move, Is.EqualTo(LegalMove.Up));
         }
     }
 }

@@ -448,5 +448,113 @@ namespace SnakeCore.Tests
             gameState.You = gameState.Board.Snakes.First();
             return gameState;
         }
+
+
+        public static GameState Test12()
+        {
+            var gameState = new GameState
+            {
+                Board = new GameState.BoardData
+                {
+                    Height = 6,
+                    Width = 6,
+                    Snakes = new List<GameState.Snake>
+                    {
+                        new GameState.Snake
+                        {
+                            Id = "1",
+                            Body = new List<GameState.BodyPartPosition>
+                            {
+                                new GameState.BodyPartPosition(1, 1),
+                                new GameState.BodyPartPosition(1, 1),
+                                new GameState.BodyPartPosition(1, 1)
+                            },
+                            Health = 100
+                        },
+                        new GameState.Snake
+                        {
+                            Id = "2",
+                            Body = new List<GameState.BodyPartPosition>
+                            {
+                                new GameState.BodyPartPosition(2, 1),
+                                new GameState.BodyPartPosition(2, 1),
+                                new GameState.BodyPartPosition(2, 1)
+                            },
+                            Health = 100
+                        },
+                        new GameState.Snake
+                        {
+                            Id = "3",
+                            Body = new List<GameState.BodyPartPosition>
+                            {
+                                new GameState.BodyPartPosition(3, 1),
+                                new GameState.BodyPartPosition(3, 1),
+                                new GameState.BodyPartPosition(3, 1)
+                            },
+                            Health = 100
+                        },
+                        new GameState.Snake
+                        {
+                            Id = "4",
+                            Body = new List<GameState.BodyPartPosition>
+                            {
+                                new GameState.BodyPartPosition(4, 1),
+                                new GameState.BodyPartPosition(4, 1),
+                                new GameState.BodyPartPosition(4, 1)
+                            },
+                            Health = 100
+                        },
+                        new GameState.Snake
+                        {
+                            Id = "5",
+                            Body = new List<GameState.BodyPartPosition>
+                            {
+                                new GameState.BodyPartPosition(1, 2),
+                                new GameState.BodyPartPosition(1, 2),
+                                new GameState.BodyPartPosition(1, 2)
+                            },
+                            Health = 100
+                        },
+                        new GameState.Snake
+                        {
+                            Id = "6",
+                            Body = new List<GameState.BodyPartPosition>
+                            {
+                                new GameState.BodyPartPosition(2, 2),
+                                new GameState.BodyPartPosition(2, 2),
+                                new GameState.BodyPartPosition(2, 2)
+                            },
+                            Health = 100
+                        },
+                        new GameState.Snake
+                        {
+                            Id = "7",
+                            Body = new List<GameState.BodyPartPosition>
+                            {
+                                new GameState.BodyPartPosition(3, 2),
+                                new GameState.BodyPartPosition(3, 2),
+                                new GameState.BodyPartPosition(3, 2)
+                            },
+                            Health = 100
+                        },
+                        new GameState.Snake
+                        {
+                            Id = "8",
+                            Body = new List<GameState.BodyPartPosition>
+                            {
+                                new GameState.BodyPartPosition(4, 2),
+                                new GameState.BodyPartPosition(4, 2),
+                                new GameState.BodyPartPosition(4, 2)
+                            },
+                            Health = 100
+                        }
+                    }
+                }
+            };
+
+            gameState.You = gameState.Board.Snakes[1];
+
+            return gameState;
+        }
     }
 }
