@@ -30,7 +30,17 @@ namespace SnakeCore.Web
                 snake.Body.RemoveAt(snake.Body.Count - 1);
 
                 if (newHead.X < 0 || newHead.X > board.Width - 1 || newHead.Y < 0 || newHead.Y > board.Height - 1)
+                {
                     snake.Health = 0;
+                }
+                else
+                {
+                    for (int j = 1; j < snake.Body.Count; j++)
+                    {
+                        if (newHead.Equals(snake.Body[j]))
+                            snake.Health = 0;
+                    }
+                }
             }
 
             return newBoard;

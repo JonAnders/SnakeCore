@@ -66,6 +66,8 @@ namespace SnakeCore.Tests
             };
 
             gameState.You = gameState.Board.Snakes.First();
+            gameState.You.Health = 100;
+
             return gameState;
         }
 
