@@ -90,7 +90,8 @@ namespace SnakeCore.Tests
                                 new GameState.BodyPartPosition(2, 2),
                                 new GameState.BodyPartPosition(3, 2),
                                 new GameState.BodyPartPosition(4, 2)
-                            }
+                            },
+                            Health = 100
                         },
                         new GameState.Snake
                         {
@@ -102,7 +103,8 @@ namespace SnakeCore.Tests
                                 new GameState.BodyPartPosition(1, 1),
                                 new GameState.BodyPartPosition(1, 2),
                                 new GameState.BodyPartPosition(1, 3)
-                            }
+                            },
+                            Health = 100
                         }
                     }
                 }
@@ -132,7 +134,8 @@ namespace SnakeCore.Tests
                                 new GameState.BodyPartPosition(1, 2),
                                 new GameState.BodyPartPosition(1, 3),
                                 new GameState.BodyPartPosition(1, 4)
-                            }
+                            },
+                            Health = 100
                         },
                         new GameState.Snake
                         {
@@ -142,7 +145,8 @@ namespace SnakeCore.Tests
                                 new GameState.BodyPartPosition(2, 2),
                                 new GameState.BodyPartPosition(2, 3),
                                 new GameState.BodyPartPosition(2, 4)
-                            }
+                            },
+                            Health = 100
                         }
                     }
                 }

@@ -43,6 +43,45 @@ namespace SnakeCore.Web
                 }
             }
 
+            for (int i = 0; i < newBoard.Snakes.Count; i++)
+            {
+                var snake = newBoard.Snakes[i];
+                if (snake.Health == 0)
+                    break;
+
+                for (int j = 0; j < newBoard.Snakes.Count; j++)
+                {
+                    var otherSnake = newBoard.Snakes[j];
+
+                    if (i != j)
+                    {
+                        if (snake.Body[0].Equals(otherSnake.Body[0]))
+                        {
+                            if (snake.Body.Count < otherSnake.Body.Count)
+                            {
+                                snake.Health = 0;
+                                break;
+                            }
+                            else if (snake.Body.Count > otherSnake.Body.Count)
+                            {
+                                otherSnake.Health = 0;
+                            }
+                            else
+                            {
+                                snake.Health = otherSnake.Health = 0;
+                                break;
+                            }
+                        }
+                    }
+
+                    for (int k = 1; k < otherSnake.Body.Count; k++)
+                    {
+                        if (snake.Body[0].Equals(otherSnake.Body[k]))
+                            snake.Health = 0;
+                    }
+                }
+            }
+
             return newBoard;
         }
     }

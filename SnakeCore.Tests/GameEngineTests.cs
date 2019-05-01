@@ -86,5 +86,32 @@ namespace SnakeCore.Tests
 
             Assert.That(newBoard.Snakes[0].Health, Is.EqualTo(0));
         }
+
+
+        [Test]
+        public void ProcessMoves_MoveIntoOtherSnakeBodyWithFullHealth_SnakeGetsZeroHealth()
+        {
+            var board = TestCases.Test03().Board;
+
+            var moves = new LegalMove[] { LegalMove.Up, LegalMove.Up };
+
+            var newBoard = this.gameEngine.ProcessMoves(board, moves);
+
+            Assert.That(newBoard.Snakes[0].Health, Is.EqualTo(0));
+        }
+
+
+        [Test]
+        public void ProcessMoves_HeadOnCollisionWithFullHealth_ShortestSnakeGetsZeroHealth()
+        {
+            var board = TestCases.Test04().Board;
+
+            var moves = new LegalMove[] { LegalMove.Right, LegalMove.Up };
+
+            var newBoard = this.gameEngine.ProcessMoves(board, moves);
+
+            Assert.That(newBoard.Snakes[0].Health, Is.EqualTo(100));
+            Assert.That(newBoard.Snakes[1].Health, Is.EqualTo(0));
+        }
     }
 }
