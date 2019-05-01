@@ -73,13 +73,26 @@ namespace SnakeCore.Tests
         [Test]
         public void Test02()
         {
-            var gameState = TestCases.Test01();
+            var gameState = TestCases.Test02();
 
             var stopwatch = Stopwatch.StartNew();
             var move = this.brain.Move(gameState);
             Console.WriteLine(stopwatch.Elapsed);
 
             Assert.That(move, Is.EqualTo(LegalMove.Left));
+        }
+
+
+        [Test]
+        public void Test03()
+        {
+            var gameState = TestCases.Test03();
+
+            var stopwatch = Stopwatch.StartNew();
+            var move = this.brain.Move(gameState);
+            Console.WriteLine(stopwatch.Elapsed);
+
+            Assert.That(move, Is.EqualTo(LegalMove.Down));
         }
     }
 }
