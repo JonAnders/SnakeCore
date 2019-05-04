@@ -31,7 +31,7 @@ namespace SnakeCore.Web
                 var snake = newBoard.Snakes[i];
 
                 var oldHead = snake.Body[0];
-                GameState.BodyPartPosition newHead = new GameState.BodyPartPosition(-1, -1);
+                var newHead = new GameState.BodyPartPosition(-1, -1);
 
                 if (moves[i] == LegalMove.Up)
                     newHead = new GameState.BodyPartPosition(oldHead.X, oldHead.Y - 1);
@@ -45,7 +45,11 @@ namespace SnakeCore.Web
                 snake.Body.Insert(0, newHead);
                 snake.Body.RemoveAt(snake.Body.Count - 1);
 
-                if (newHead.X < 0 || newHead.X > board.Width - 1 || newHead.Y < 0 || newHead.Y > board.Height - 1)
+                if (newHead.X == snake.Body[2].X && newHead.Y == snake.Body[2].Y)
+                    // If going back into itself
+                    snake.Health = 0;
+                else if (newHead.X < 0 || newHead.X > board.Width - 1 || newHead.Y < 0 || newHead.Y > board.Height - 1)
+                    // If colliding with wall
                     snake.Health = 0;
             }
 
@@ -63,6 +67,7 @@ namespace SnakeCore.Web
                     {
                         if (snake.Body[0].X == otherSnake.Body[0].X && snake.Body[0].Y == otherSnake.Body[0].Y)
                         {
+                            // Head on collision
                             if (snake.Body.Count < otherSnake.Body.Count)
                             {
                                 snake.Health = 0;
@@ -83,6 +88,7 @@ namespace SnakeCore.Web
                     for (int k = 1; k < otherSnake.Body.Count; k++)
                     {
                         if (snake.Body[0].X == otherSnake.Body[k].X && snake.Body[0].Y == otherSnake.Body[k].Y)
+                            // If colliding with the body of another snake
                             snake.Health = 0;
                     }
                 }
