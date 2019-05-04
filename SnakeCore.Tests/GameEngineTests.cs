@@ -2,6 +2,8 @@
 using SnakeCore.Web;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using static SnakeCore.Web.GameState;
 
 namespace SnakeCore.Tests
@@ -112,6 +114,28 @@ namespace SnakeCore.Tests
 
             Assert.That(newBoard.Snakes[0].Health, Is.EqualTo(100));
             Assert.That(newBoard.Snakes[1].Health, Is.EqualTo(0));
+        }
+
+
+        [Test]
+        public void ProcessMoves_EightSnakes_IsNotTooSlow()
+        {
+            var board = TestCases.Test12().Board;
+
+            var moves = new LegalMove[] { LegalMove.Left, LegalMove.Up, LegalMove.Up, LegalMove.Right, LegalMove.Left, LegalMove.Down, LegalMove.Down, LegalMove.Right };
+
+            BoardData newBoard = null;
+            var stopwatch = Stopwatch.StartNew();
+            for (int i = 0; i < 65536; i++)
+            {
+                newBoard = this.gameEngine.ProcessMoves(board, moves);
+            }
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.Elapsed);
+            Assert.That(stopwatch.ElapsedMilliseconds, Is.LessThan(100));
+
+            Assert.That(newBoard.Snakes.Count, Is.EqualTo(8));
+            Assert.That(newBoard.Snakes.All(x => x.Health == 100), Is.True);
         }
     }
 }

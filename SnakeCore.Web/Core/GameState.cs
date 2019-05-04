@@ -30,16 +30,21 @@ namespace SnakeCore.Web
                     Height = this.Height,
                     Width = this.Width,
                     Food = this.Food?
-                        .Select(x => new FoodPosition(x.X, x.Y))
                         .ToList(),
                     Snakes = this.Snakes?
-                        .Select(x => x.Copy())
+                        .Select(x => new Snake
+                        {
+                            Id = x.Id,
+                            Name = x.Name,
+                            Health = x.Health,
+                            Body = x.Body?.ToList()
+                        })
                         .ToList()
                 };
             }
         }
 
-        public class FoodPosition
+        public struct FoodPosition
         {
             public FoodPosition(int x, int y)
             {
@@ -50,11 +55,19 @@ namespace SnakeCore.Web
 
             public override bool Equals(object obj)
             {
-                var other = obj as FoodPosition;
-                if (other == null)
-                    return false;
+                return obj is FoodPosition && this == (FoodPosition)obj;
+            }
 
-                return other.X == this.X && other.Y == this.Y;
+
+            public static bool operator ==(FoodPosition x, FoodPosition y)
+            {
+                return x.X == y.X && x.Y == y.Y;
+            }
+
+
+            public static bool operator !=(FoodPosition x, FoodPosition y)
+            {
+                return !(x == y);
             }
 
 
@@ -78,13 +91,12 @@ namespace SnakeCore.Web
                     Name = this.Name,
                     Health = this.Health,
                     Body = this.Body?
-                        .Select(x => new BodyPartPosition(x.X, x.Y))
                         .ToList()
                 };
             }
         }
 
-        public class BodyPartPosition
+        public struct BodyPartPosition
         {
             public BodyPartPosition(int x, int y)
             {
@@ -95,11 +107,25 @@ namespace SnakeCore.Web
 
             public override bool Equals(object obj)
             {
-                var other = obj as BodyPartPosition;
-                if (other == null)
-                    return false;
+                return obj is BodyPartPosition && this == (BodyPartPosition)obj;
+            }
 
-                return other.X == this.X && other.Y == this.Y;
+
+            public static bool operator ==(BodyPartPosition x, BodyPartPosition y)
+            {
+                return x.X == y.X && x.Y == y.Y;
+            }
+
+
+            public static bool operator !=(BodyPartPosition x, BodyPartPosition y)
+            {
+                return !(x == y);
+            }
+
+
+            public override string ToString()
+            {
+                return $"({X}, {Y})";
             }
 
 

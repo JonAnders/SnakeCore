@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace SnakeCore.Web
 {
@@ -8,39 +9,44 @@ namespace SnakeCore.Web
         {
             if (board.Snakes.Count != moves.Length)
                 throw new Exception($"{moves.Length} moves was provided, but the board has {board.Snakes.Count} snakes");
-
-            GameState.BoardData newBoard = board.Copy();
+            
+            var newBoard = new GameState.BoardData
+            {
+                Height = board.Height,
+                Width = board.Width,
+                Food = board.Food?.ToList(),
+                Snakes = board.Snakes?
+                        .Select(x => new GameState.Snake
+                        {
+                            Id = x.Id,
+                            Name = x.Name,
+                            Health = x.Health,
+                            Body = x.Body?.ToList()
+                        })
+                        .ToList()
+            };
 
             for (int i = 0; i < newBoard.Snakes.Count; i++)
             {
                 var snake = newBoard.Snakes[i];
 
-                var newHead = new GameState.BodyPartPosition(snake.Body[0].X, snake.Body[0].Y);
+                var oldHead = snake.Body[0];
+                GameState.BodyPartPosition newHead = new GameState.BodyPartPosition(-1, -1);
 
                 if (moves[i] == LegalMove.Up)
-                    newHead.Y--;
+                    newHead = new GameState.BodyPartPosition(oldHead.X, oldHead.Y - 1);
                 else if (moves[i] == LegalMove.Down)
-                    newHead.Y++;
+                    newHead = new GameState.BodyPartPosition(oldHead.X, oldHead.Y + 1);
                 else if (moves[i] == LegalMove.Left)
-                    newHead.X--;
+                    newHead = new GameState.BodyPartPosition(oldHead.X - 1, oldHead.Y);
                 else if (moves[i] == LegalMove.Right)
-                    newHead.X++;
+                    newHead = new GameState.BodyPartPosition(oldHead.X + 1, oldHead.Y);
 
                 snake.Body.Insert(0, newHead);
                 snake.Body.RemoveAt(snake.Body.Count - 1);
 
                 if (newHead.X < 0 || newHead.X > board.Width - 1 || newHead.Y < 0 || newHead.Y > board.Height - 1)
-                {
                     snake.Health = 0;
-                }
-                else
-                {
-                    for (int j = 1; j < snake.Body.Count; j++)
-                    {
-                        if (newHead.Equals(snake.Body[j]))
-                            snake.Health = 0;
-                    }
-                }
             }
 
             for (int i = 0; i < newBoard.Snakes.Count; i++)
@@ -55,7 +61,7 @@ namespace SnakeCore.Web
 
                     if (i != j)
                     {
-                        if (snake.Body[0].Equals(otherSnake.Body[0]))
+                        if (snake.Body[0].X == otherSnake.Body[0].X && snake.Body[0].Y == otherSnake.Body[0].Y)
                         {
                             if (snake.Body.Count < otherSnake.Body.Count)
                             {
@@ -76,7 +82,7 @@ namespace SnakeCore.Web
 
                     for (int k = 1; k < otherSnake.Body.Count; k++)
                     {
-                        if (snake.Body[0].Equals(otherSnake.Body[k]))
+                        if (snake.Body[0].X == otherSnake.Body[k].X && snake.Body[0].Y == otherSnake.Body[k].Y)
                             snake.Health = 0;
                     }
                 }
