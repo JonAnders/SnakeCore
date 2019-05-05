@@ -32,10 +32,12 @@ namespace SnakeCore.Tests
                 }
             };
             int[,] boardArray = GetBoardArray(board);
+            var snakeBodies = GetSnakeBodies(board);
+            var healths = GetHealths(board);
 
             var moves = new LegalMove[] { LegalMove.Down, LegalMove.Down, LegalMove.Down };
 
-            var exception = Assert.Throws<Exception>(() => gameEngine.ProcessMoves(board, boardArray, moves));
+            var exception = Assert.Throws<Exception>(() => gameEngine.ProcessMoves(snakeBodies, healths, boardArray, moves));
             Assert.That(exception.Message, Is.EqualTo($"3 moves was provided, but the board has 2 snakes"));
         }
 
@@ -54,17 +56,18 @@ namespace SnakeCore.Tests
                 }
             };
             int[,] boardArray = GetBoardArray(board);
+            var snakeBodies = GetSnakeBodies(board);
+            var healths = GetHealths(board);
 
             var moves = new LegalMove[] { LegalMove.Down, LegalMove.Right };
 
-            var newBoard = this.gameEngine.ProcessMoves(board, boardArray, moves);
+            (var futureSnakes, var futureHealths) = this.gameEngine.ProcessMoves(snakeBodies, healths, boardArray, moves);
+            
+            Assert.That(futureSnakes, Is.Not.Null);
+            Assert.That(futureSnakes.Count, Is.EqualTo(2));
 
-            Assert.That(newBoard, Is.Not.Null);
-            Assert.That(newBoard.Snakes, Is.Not.Null);
-            Assert.That(newBoard.Snakes.Count, Is.EqualTo(2));
-
-            Assert.That(newBoard.Snakes[0].Body, Is.EqualTo(new List<BodyPartPosition> { new BodyPartPosition(1, 3), new BodyPartPosition(1, 2), new BodyPartPosition(1, 2) }));
-            Assert.That(newBoard.Snakes[1].Body, Is.EqualTo(new List<BodyPartPosition> { new BodyPartPosition(4, 2), new BodyPartPosition(3, 2), new BodyPartPosition(3, 2) }));
+            Assert.That(futureSnakes[0], Is.EqualTo(new BodyPartPosition[] { new BodyPartPosition(1, 3), new BodyPartPosition(1, 2), new BodyPartPosition(1, 2) }));
+            Assert.That(futureSnakes[1], Is.EqualTo(new BodyPartPosition[] { new BodyPartPosition(4, 2), new BodyPartPosition(3, 2), new BodyPartPosition(3, 2) }));
         }
 
 
@@ -73,12 +76,14 @@ namespace SnakeCore.Tests
         {
             var board = TestCases.Test01().Board;
             int[,] boardArray = GetBoardArray(board);
+            var snakeBodies = GetSnakeBodies(board);
+            var healths = GetHealths(board);
 
             var moves = new LegalMove[] { LegalMove.Up };
 
-            var newBoard = this.gameEngine.ProcessMoves(board, boardArray, moves);
+            (var futureSnakes, var futureHealths) = this.gameEngine.ProcessMoves(snakeBodies, healths, boardArray, moves);
 
-            Assert.That(newBoard.Snakes[0].Health, Is.EqualTo(0));
+            Assert.That(futureHealths[0], Is.EqualTo(0));
         }
 
 
@@ -87,12 +92,14 @@ namespace SnakeCore.Tests
         {
             var board = TestCases.Test02().Board;
             int[,] boardArray = GetBoardArray(board);
+            var snakeBodies = GetSnakeBodies(board);
+            var healths = GetHealths(board);
 
             var moves = new LegalMove[] { LegalMove.Up };
 
-            var newBoard = this.gameEngine.ProcessMoves(board, boardArray, moves);
+            (var futureSnakes, var futureHealths) = this.gameEngine.ProcessMoves(snakeBodies, healths, boardArray, moves);
 
-            Assert.That(newBoard.Snakes[0].Health, Is.EqualTo(0));
+            Assert.That(futureHealths[0], Is.EqualTo(0));
         }
 
 
@@ -101,12 +108,14 @@ namespace SnakeCore.Tests
         {
             var board = TestCases.Test03().Board;
             int[,] boardArray = GetBoardArray(board);
+            var snakeBodies = GetSnakeBodies(board);
+            var healths = GetHealths(board);
 
             var moves = new LegalMove[] { LegalMove.Up, LegalMove.Up };
 
-            var newBoard = this.gameEngine.ProcessMoves(board, boardArray, moves);
+            (var futureSnakes, var futureHealths) = this.gameEngine.ProcessMoves(snakeBodies, healths, boardArray, moves);
 
-            Assert.That(newBoard.Snakes[0].Health, Is.EqualTo(0));
+            Assert.That(futureHealths[0], Is.EqualTo(0));
         }
 
 
@@ -115,13 +124,15 @@ namespace SnakeCore.Tests
         {
             var board = TestCases.Test04().Board;
             int[,] boardArray = GetBoardArray(board);
+            var snakeBodies = GetSnakeBodies(board);
+            var healths = GetHealths(board);
 
             var moves = new LegalMove[] { LegalMove.Right, LegalMove.Up };
 
-            var newBoard = this.gameEngine.ProcessMoves(board, boardArray, moves);
+            (var futureSnakes, var futureHealths) = this.gameEngine.ProcessMoves(snakeBodies, healths, boardArray, moves);
 
-            Assert.That(newBoard.Snakes[0].Health, Is.EqualTo(100));
-            Assert.That(newBoard.Snakes[1].Health, Is.EqualTo(0));
+            Assert.That(futureHealths[0], Is.EqualTo(100));
+            Assert.That(futureHealths[1], Is.EqualTo(0));
         }
 
 
@@ -130,21 +141,24 @@ namespace SnakeCore.Tests
         {
             var board = TestCases.Test12().Board;
             int[,] boardArray = GetBoardArray(board);
+            var snakeBodies = GetSnakeBodies(board);
+            var healths = GetHealths(board);
 
             var moves = new LegalMove[] { LegalMove.Left, LegalMove.Up, LegalMove.Up, LegalMove.Right, LegalMove.Left, LegalMove.Down, LegalMove.Down, LegalMove.Right };
 
-            BoardData newBoard = null;
+            BodyPartPosition[][] futureSnakes = null;
+            int[] futureHealths = null;
             var stopwatch = Stopwatch.StartNew();
             for (int i = 0; i < 65536; i++)
             {
-                newBoard = this.gameEngine.ProcessMoves(board, boardArray, moves);
+                (futureSnakes, futureHealths) = this.gameEngine.ProcessMoves(snakeBodies, healths, boardArray, moves);
             }
             stopwatch.Stop();
             Console.WriteLine(stopwatch.Elapsed);
             Assert.That(stopwatch.ElapsedMilliseconds, Is.LessThan(100));
 
-            Assert.That(newBoard.Snakes.Count, Is.EqualTo(8));
-            Assert.That(newBoard.Snakes.All(x => x.Health == 100), Is.True);
+            Assert.That(futureSnakes.Count, Is.EqualTo(8));
+            Assert.That(futureHealths.All(x => x == 100), Is.True);
         }
 
 
@@ -158,6 +172,18 @@ namespace SnakeCore.Tests
             }
 
             return boardArray;
+        }
+
+
+        private static BodyPartPosition[][] GetSnakeBodies(BoardData board)
+        {
+            return board.Snakes.Select(x => x.Body.ToArray()).ToArray();
+        }
+
+
+        private static int[] GetHealths(BoardData board)
+        {
+            return board.Snakes.Select(x => x.Health).ToArray();
         }
     }
 }

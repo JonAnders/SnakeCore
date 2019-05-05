@@ -42,9 +42,10 @@ namespace SnakeCore.Web.Brains
                     boardArray[bodyPartPosition.X, bodyPartPosition.Y] = 1;
             }
 
-            var permutations = GetPossibleMovesPermutations(board.Snakes.Count);
+            var snakeBodies = board.Snakes.Select(x => x.Body.ToArray()).ToArray();
+            var healths = board.Snakes.Select(x => x.Health).ToArray();
 
-            var possibleFutures = new GameState.BoardData[permutations.Length];
+            var permutations = GetPossibleMovesPermutations(board.Snakes.Count);
 
             var survivableFutures = new Dictionary<LegalMove, int>
             {
@@ -56,9 +57,9 @@ namespace SnakeCore.Web.Brains
 
             for (int i = 0; i < permutations.Length; i++)
             {
-                possibleFutures[i] = gameEngine.ProcessMoves(board, boardArray, permutations[i]);
+                (var futureSnakes, var futureHealths) = gameEngine.ProcessMoves(snakeBodies, healths, boardArray, permutations[i]);
 
-                if (possibleFutures[i].Snakes[indexOfMyself].Health > 0)
+                if (futureHealths[indexOfMyself] > 0)
                     survivableFutures[permutations[i][indexOfMyself]]++;
             }
 
