@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -143,6 +144,38 @@ namespace SnakeCore.Tests
             var move = this.brain.Move(gameState);
 
             Assert.That(move, Is.EqualTo(LegalMove.Left));
+        }
+        
+        [Test]
+        public void Test12()
+        {
+            var gameState = TestCases.Test12();
+
+            var stopwatch = Stopwatch.StartNew();
+            var move = this.brain.Move(gameState);
+            Console.WriteLine(stopwatch.Elapsed);
+
+            Assert.That(move, Is.EqualTo(LegalMove.Up));
+        }
+
+        [Test]
+        public void Test13()
+        {
+            GameState gameState = TestCases.Test13();
+
+            var move = this.brain.Move(gameState);
+
+            Assert.That(move, Is.EqualTo(LegalMove.Left));
+        }
+
+        [Test]
+        public void Test14()
+        {
+            GameState gameState = TestCases.Test14();
+
+            var move = this.brain.Move(gameState);
+
+            Assert.That(move, Is.EqualTo(LegalMove.Right));
         }
     }
 }
