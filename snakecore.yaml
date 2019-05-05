@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: snakecore-web
-        image: jonanders/snakecore:1.1.0
+        image: jonanders/snakecore:1.2.0
         ports:
         - containerPort: 80
 ---
