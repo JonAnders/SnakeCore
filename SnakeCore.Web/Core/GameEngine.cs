@@ -5,7 +5,7 @@ namespace SnakeCore.Web
 {
     public class GameEngine
     {
-        public GameState.BoardData ProcessMoves(GameState.BoardData board, LegalMove[] moves)
+        public GameState.BoardData ProcessMoves(GameState.BoardData board, int[,] boardArray, LegalMove[] moves)
         {
             if (board.Snakes.Count != moves.Length)
                 throw new Exception($"{moves.Length} moves was provided, but the board has {board.Snakes.Count} snakes");
@@ -51,6 +51,9 @@ namespace SnakeCore.Web
                 else if (newHead.X < 0 || newHead.X > board.Width - 1 || newHead.Y < 0 || newHead.Y > board.Height - 1)
                     // If colliding with wall
                     snake.Health = 0;
+                else if (boardArray[newHead.X, newHead.Y] > 0)
+                    // If colliding with the body of another snake
+                    snake.Health = 0;
             }
 
             for (int i = 0; i < newBoard.Snakes.Count; i++)
@@ -83,13 +86,6 @@ namespace SnakeCore.Web
                                 break;
                             }
                         }
-                    }
-
-                    for (int k = 1; k < otherSnake.Body.Count; k++)
-                    {
-                        if (snake.Body[0].X == otherSnake.Body[k].X && snake.Body[0].Y == otherSnake.Body[k].Y)
-                            // If colliding with the body of another snake
-                            snake.Health = 0;
                     }
                 }
             }

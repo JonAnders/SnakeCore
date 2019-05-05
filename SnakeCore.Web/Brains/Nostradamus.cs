@@ -35,6 +35,13 @@ namespace SnakeCore.Web.Brains
 
         private LegalMove GetMostSurvivableMove(GameState.BoardData board, int indexOfMyself)
         {
+            var boardArray = new int[board.Width, board.Height];
+            foreach (var snake in board.Snakes)
+            {
+                foreach (var bodyPartPosition in snake.Body)
+                    boardArray[bodyPartPosition.X, bodyPartPosition.Y] = 1;
+            }
+
             var permutations = GetPossibleMovesPermutations(board.Snakes.Count);
 
             var possibleFutures = new GameState.BoardData[permutations.Length];
@@ -49,7 +56,7 @@ namespace SnakeCore.Web.Brains
 
             for (int i = 0; i < permutations.Length; i++)
             {
-                possibleFutures[i] = gameEngine.ProcessMoves(board, permutations[i]);
+                possibleFutures[i] = gameEngine.ProcessMoves(board, boardArray, permutations[i]);
 
                 if (possibleFutures[i].Snakes[indexOfMyself].Health > 0)
                     survivableFutures[permutations[i][indexOfMyself]]++;

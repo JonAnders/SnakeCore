@@ -23,16 +23,19 @@ namespace SnakeCore.Tests
         {
             var board = new BoardData
             {
+                Height = 5,
+                Width = 5,
                 Snakes = new List<Snake>
                 {
-                    new Snake(),
-                    new Snake()
+                    new Snake { Body = new List<BodyPartPosition> { new BodyPartPosition(1, 2), new BodyPartPosition(1, 2) , new BodyPartPosition(1, 2) }},
+                    new Snake { Body = new List<BodyPartPosition> { new BodyPartPosition(3, 2), new BodyPartPosition(3, 2) , new BodyPartPosition(3, 2) }}
                 }
             };
+            int[,] boardArray = GetBoardArray(board);
 
             var moves = new LegalMove[] { LegalMove.Down, LegalMove.Down, LegalMove.Down };
 
-            var exception = Assert.Throws<Exception>(() => gameEngine.ProcessMoves(board, moves));
+            var exception = Assert.Throws<Exception>(() => gameEngine.ProcessMoves(board, boardArray, moves));
             Assert.That(exception.Message, Is.EqualTo($"3 moves was provided, but the board has 2 snakes"));
         }
 
@@ -50,10 +53,11 @@ namespace SnakeCore.Tests
                     new Snake { Body = new List<BodyPartPosition> { new BodyPartPosition(3, 2), new BodyPartPosition(3, 2) , new BodyPartPosition(3, 2) }}
                 }
             };
+            int[,] boardArray = GetBoardArray(board);
 
             var moves = new LegalMove[] { LegalMove.Down, LegalMove.Right };
 
-            var newBoard = this.gameEngine.ProcessMoves(board, moves);
+            var newBoard = this.gameEngine.ProcessMoves(board, boardArray, moves);
 
             Assert.That(newBoard, Is.Not.Null);
             Assert.That(newBoard.Snakes, Is.Not.Null);
@@ -68,10 +72,11 @@ namespace SnakeCore.Tests
         public void ProcessMoves_MoveIntoUpperWallWithFullHealth_SnakeGetsZeroHealth()
         {
             var board = TestCases.Test01().Board;
+            int[,] boardArray = GetBoardArray(board);
 
             var moves = new LegalMove[] { LegalMove.Up };
 
-            var newBoard = this.gameEngine.ProcessMoves(board, moves);
+            var newBoard = this.gameEngine.ProcessMoves(board, boardArray, moves);
 
             Assert.That(newBoard.Snakes[0].Health, Is.EqualTo(0));
         }
@@ -81,10 +86,11 @@ namespace SnakeCore.Tests
         public void ProcessMoves_MoveIntoOwnBodyWithFullHealth_SnakeGetsZeroHealth()
         {
             var board = TestCases.Test02().Board;
+            int[,] boardArray = GetBoardArray(board);
 
             var moves = new LegalMove[] { LegalMove.Up };
 
-            var newBoard = this.gameEngine.ProcessMoves(board, moves);
+            var newBoard = this.gameEngine.ProcessMoves(board, boardArray, moves);
 
             Assert.That(newBoard.Snakes[0].Health, Is.EqualTo(0));
         }
@@ -94,10 +100,11 @@ namespace SnakeCore.Tests
         public void ProcessMoves_MoveIntoOtherSnakeBodyWithFullHealth_SnakeGetsZeroHealth()
         {
             var board = TestCases.Test03().Board;
+            int[,] boardArray = GetBoardArray(board);
 
             var moves = new LegalMove[] { LegalMove.Up, LegalMove.Up };
 
-            var newBoard = this.gameEngine.ProcessMoves(board, moves);
+            var newBoard = this.gameEngine.ProcessMoves(board, boardArray, moves);
 
             Assert.That(newBoard.Snakes[0].Health, Is.EqualTo(0));
         }
@@ -107,10 +114,11 @@ namespace SnakeCore.Tests
         public void ProcessMoves_HeadOnCollisionWithFullHealth_ShortestSnakeGetsZeroHealth()
         {
             var board = TestCases.Test04().Board;
+            int[,] boardArray = GetBoardArray(board);
 
             var moves = new LegalMove[] { LegalMove.Right, LegalMove.Up };
 
-            var newBoard = this.gameEngine.ProcessMoves(board, moves);
+            var newBoard = this.gameEngine.ProcessMoves(board, boardArray, moves);
 
             Assert.That(newBoard.Snakes[0].Health, Is.EqualTo(100));
             Assert.That(newBoard.Snakes[1].Health, Is.EqualTo(0));
@@ -121,6 +129,7 @@ namespace SnakeCore.Tests
         public void ProcessMoves_EightSnakes_IsNotTooSlow()
         {
             var board = TestCases.Test12().Board;
+            int[,] boardArray = GetBoardArray(board);
 
             var moves = new LegalMove[] { LegalMove.Left, LegalMove.Up, LegalMove.Up, LegalMove.Right, LegalMove.Left, LegalMove.Down, LegalMove.Down, LegalMove.Right };
 
@@ -128,7 +137,7 @@ namespace SnakeCore.Tests
             var stopwatch = Stopwatch.StartNew();
             for (int i = 0; i < 65536; i++)
             {
-                newBoard = this.gameEngine.ProcessMoves(board, moves);
+                newBoard = this.gameEngine.ProcessMoves(board, boardArray, moves);
             }
             stopwatch.Stop();
             Console.WriteLine(stopwatch.Elapsed);
@@ -136,6 +145,19 @@ namespace SnakeCore.Tests
 
             Assert.That(newBoard.Snakes.Count, Is.EqualTo(8));
             Assert.That(newBoard.Snakes.All(x => x.Health == 100), Is.True);
+        }
+
+
+        private static int[,] GetBoardArray(BoardData board)
+        {
+            var boardArray = new int[board.Width, board.Height];
+            foreach (var snake in board.Snakes)
+            {
+                foreach (var bodyPartPosition in snake.Body)
+                    boardArray[bodyPartPosition.X, bodyPartPosition.Y] = 1;
+            }
+
+            return boardArray;
         }
     }
 }
