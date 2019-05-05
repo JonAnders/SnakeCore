@@ -124,5 +124,31 @@ namespace SnakeCore.Tests
 
             Assert.That(move, Is.EqualTo(LegalMove.Up));
         }
+
+
+        [Test]
+        public void Test13()
+        {
+            var gameState = TestCases.Test13();
+
+            var stopwatch = Stopwatch.StartNew();
+            var move = this.brain.Move(gameState);
+            Console.WriteLine(stopwatch.Elapsed);
+
+            Assert.That(move, Is.EqualTo(LegalMove.Left));
+        }
+
+
+        [Test]
+        public void Test14()
+        {
+            var gameState = TestCases.Test14();
+
+            var stopwatch = Stopwatch.StartNew();
+            var move = this.brain.Move(gameState);
+            Console.WriteLine(stopwatch.Elapsed);
+
+            Assert.That(move, Is.EqualTo(LegalMove.Right));
+        }
     }
 }

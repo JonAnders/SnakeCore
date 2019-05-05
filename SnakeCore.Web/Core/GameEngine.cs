@@ -38,7 +38,7 @@ namespace SnakeCore.Web
                 if (newHead.X == snakeBody[2].X && newHead.Y == snakeBody[2].Y)
                     // If going back into itself
                     futureHealth = 0;
-                else if (newHead.X < 0 || newHead.X > boardArray.Length - 1 || newHead.Y < 0 || newHead.Y > boardArray.Length - 1)
+                else if (newHead.X < 0 || newHead.X > boardArray.GetLength(0) - 1 || newHead.Y < 0 || newHead.Y > boardArray.GetLength(1) - 1)
                     // If colliding with wall
                     futureHealth = 0;
                 else if (boardArray[newHead.X, newHead.Y] > 0)

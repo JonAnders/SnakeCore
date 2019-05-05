@@ -40,8 +40,8 @@ namespace SnakeCore.Web.Brains
             var boardArray = new int[board.Width, board.Height];
             foreach (var snake in board.Snakes)
             {
-                foreach (var bodyPartPosition in snake.Body)
-                    boardArray[bodyPartPosition.X, bodyPartPosition.Y] = 1;
+                for (int i = 0; i < snake.Body.Count - 1; i++)
+                    boardArray[snake.Body[i].X, snake.Body[i].Y] = 1;
             }
 
             var snakeBodies = board.Snakes.Select(x => x.Body.ToArray()).ToArray();
