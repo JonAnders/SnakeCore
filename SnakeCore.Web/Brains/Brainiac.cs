@@ -197,7 +197,7 @@ namespace SnakeCore.Web.Brains
                 }
                 futureGameState.Board.Snakes = futureGameState.Board.Snakes.Where(x => x.Body.Count > 0).ToList();
                 futureGameState.You.Body.RemoveAt(futureGameState.You.Body.Count - 1);
-                futureGameState.Board.Snakes.First(x => x.Id == futureGameState.You.Id).Body.Insert(0, new GameState.BodyPartPosition(weightedMove.NewX, weightedMove.NewY));
+                futureGameState.Board.Snakes.FirstOrDefault(x => x.Id == futureGameState.You.Id)?.Body.Insert(0, new GameState.BodyPartPosition(weightedMove.NewX, weightedMove.NewY));
                 futureGameState.You.Body.Insert(0, new GameState.BodyPartPosition(weightedMove.NewX, weightedMove.NewY));
 
                 // Call AvoidWalls and AvoidSnakes

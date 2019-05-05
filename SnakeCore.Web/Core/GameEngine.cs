@@ -35,7 +35,7 @@ namespace SnakeCore.Web
                 futureSnakeBodies[i] = futureSnakeBody;
                 
                 var futureHealth = healths[i];
-                if (newHead.X == snakeBody[2].X && newHead.Y == snakeBody[2].Y)
+                if (snakeBody.Length > 2 && newHead.X == snakeBody[2].X && newHead.Y == snakeBody[2].Y)
                     // If going back into itself
                     futureHealth = 0;
                 else if (newHead.X < 0 || newHead.X > boardArray.GetLength(0) - 1 || newHead.Y < 0 || newHead.Y > boardArray.GetLength(1) - 1)
