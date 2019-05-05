@@ -13,7 +13,7 @@ namespace SnakeCore.Web.Brains
         private readonly ILogger logger;
 
 
-        public Brainiac(ILogger logger)
+        public Brainiac(ILogger<Brainiac> logger)
         {
             this.logger = logger;
         }

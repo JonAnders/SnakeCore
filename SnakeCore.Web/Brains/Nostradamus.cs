@@ -7,11 +7,13 @@ namespace SnakeCore.Web.Brains
     public class Nostradamus : IBrain
     {
         private readonly GameEngine gameEngine;
+        private readonly NostradamusPrecalc precalc;
 
 
-        public Nostradamus()
+        public Nostradamus(NostradamusPrecalc precalc)
         {
             this.gameEngine = new GameEngine();
+            this.precalc = precalc;
         }
 
         public StartResponse Start(GameState gameState)
@@ -45,7 +47,7 @@ namespace SnakeCore.Web.Brains
             var snakeBodies = board.Snakes.Select(x => x.Body.ToArray()).ToArray();
             var healths = board.Snakes.Select(x => x.Health).ToArray();
 
-            var permutations = GetPossibleMovesPermutations(board.Snakes.Count);
+            var permutations = this.precalc.GetPossibleMovesPermutations(board.Snakes.Count);
 
             var survivableFutures = new Dictionary<LegalMove, int>
             {
@@ -73,44 +75,6 @@ namespace SnakeCore.Web.Brains
 
         public void End(GameState gameState)
         {
-        }
-
-        public LegalMove[][] GetPossibleMovesPermutations(int numSnakes)
-        {
-            var allLegalMoves = new LegalMove[] { LegalMove.Up, LegalMove.Down, LegalMove.Left, LegalMove.Right };
-
-            if (numSnakes == 1)
-            {
-                var moves = new LegalMove[4][];
-
-                for (int i = 0; i < allLegalMoves.Length; i++)
-                {
-                    moves[i] = new LegalMove[] { allLegalMoves[i] };
-                }
-
-                return moves;
-            }
-            else
-            {
-                int numPossibleMoves = (int)Math.Pow(4, numSnakes);
-                var moves = new LegalMove[numPossibleMoves][];
-
-                for (int i = 0; i < allLegalMoves.Length; i++)
-                {
-                    var possibleMoves = GetPossibleMovesPermutations(numSnakes - 1);
-
-                    for (int j = 0; j < possibleMoves.Length; j++)
-                    {
-                        var possibleMove = possibleMoves[j];
-                        var newPossibleFuture = new LegalMove[possibleMove.Length + 1];
-                        newPossibleFuture[0] = allLegalMoves[i];
-                        possibleMove.CopyTo(newPossibleFuture, 1);
-                        moves[(i * possibleMoves.Length) + j] = newPossibleFuture;
-                    }
-                }
-
-                return moves;
-            }
         }
     }
 }

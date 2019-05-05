@@ -10,7 +10,7 @@ namespace SnakeCore.Web.Brains
         private readonly ILogger logger;
 
 
-        public Spinner(ILogger logger)
+        public Spinner(ILogger<Spinner> logger)
         {
             this.logger = logger;
         }

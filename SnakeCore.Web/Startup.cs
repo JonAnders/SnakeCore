@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using SnakeCore.Web.Brains;
 
 namespace SnakeCore.Web
 {
@@ -25,6 +26,14 @@ namespace SnakeCore.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var nostradamusPrecalc = new NostradamusPrecalc();
+            services.AddSingleton(nostradamusPrecalc);
+
+            services.AddScoped<Lefty>();
+            services.AddScoped<Spinner>();
+            services.AddScoped<Brainiac>();
+            services.AddScoped<Nostradamus>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

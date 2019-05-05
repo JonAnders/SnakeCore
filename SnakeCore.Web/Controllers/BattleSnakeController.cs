@@ -13,11 +13,13 @@ namespace SnakeCore.Web.Controllers
     public class BattleSnakeController : Controller
     {
         private readonly ILogger logger;
+        private readonly IServiceProvider serviceProvider;
 
 
-        public BattleSnakeController(ILogger<BattleSnakeController> logger)
+        public BattleSnakeController(ILogger<BattleSnakeController> logger, IServiceProvider serviceProvider)
         {
             this.logger = logger;
+            this.serviceProvider = serviceProvider;
         }
 
 
@@ -65,19 +67,26 @@ namespace SnakeCore.Web.Controllers
 
         private IBrain GetBrain(string brainName)
         {
+            Type brainType = null;
             switch (brainName)
             {
                 case "lefty":
-                    return new Lefty();
+                    brainType = typeof(Lefty);
+                    break;
                 case "spinner":
-                    return new Spinner(this.logger);
+                    brainType = typeof(Spinner);
+                    break;
                 case "brainiac":
-                    return new Brainiac(this.logger);
+                    brainType = typeof(Brainiac);
+                    break;
                 case "nostradamus":
-                    return new Nostradamus();
+                    brainType = typeof(Nostradamus);
+                    break;
+                default:
+                    throw new Exception($"Unkown brain: {brainName}");
             }
 
-            throw new Exception($"Unkown brain: {brainName}");
+            return (IBrain)this.serviceProvider.GetService(brainType);
         }
 
 

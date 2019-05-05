@@ -10,18 +10,20 @@ namespace SnakeCore.Tests
     public class NostradamusTests
     {
         private Nostradamus brain;
+        private NostradamusPrecalc precalc;
 
         [SetUp]
         public void Setup()
         {
-            this.brain = new Nostradamus();
+            this.precalc = new NostradamusPrecalc();
+            this.brain = new Nostradamus(this.precalc);
         }
 
 
         [Test]
         public void GetPossibleMovesPermutations_TwoSnakes_Returns16Permutations()
         {
-            var permutations = this.brain.GetPossibleMovesPermutations(2);
+            var permutations = this.precalc.GetPossibleMovesPermutations(2);
 
             Assert.That(permutations.Length, Is.EqualTo(16));
 
@@ -47,7 +49,7 @@ namespace SnakeCore.Tests
         [Test]
         public void GetPossibleMovesPermutations_ThreeSnakes_Returns64Permutations()
         {
-            var permutations = this.brain.GetPossibleMovesPermutations(3);
+            var permutations = this.precalc.GetPossibleMovesPermutations(3);
 
             Assert.That(permutations.Length, Is.EqualTo(64));
 
@@ -61,7 +63,7 @@ namespace SnakeCore.Tests
         public void GetPossibleMovesPermutations_EightSnakes_Returns65536Permutations()
         {
             var stopwatch = Stopwatch.StartNew();
-            var permutations = this.brain.GetPossibleMovesPermutations(8);
+            var permutations = this.precalc.GetPossibleMovesPermutations(8);
             Console.WriteLine(stopwatch.Elapsed);
 
             Assert.That(permutations.Length, Is.EqualTo(65536));
