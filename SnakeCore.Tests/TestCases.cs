@@ -638,5 +638,55 @@ namespace SnakeCore.Tests
 
             return gameState;
         }
+
+
+        public static GameState Test15()
+        {
+            // Note: This test is a remake of an actual game that was lost by Brainiac
+            // The other snake was non-responsive and was only going straight up.
+            // https://play.battlesnake.com/g/a74a7df6-4ca5-4125-a636-913faef789e9/
+
+            var gameState = new GameState
+            {
+                Board = new GameState.BoardData
+                {
+                    Height = 7,
+                    Width = 7,
+                    Snakes = new List<GameState.Snake>
+                    {
+                        new GameState.Snake
+                        {
+                            Id = "1",
+                            Body = new List<GameState.BodyPartPosition>
+                            {
+                                new GameState.BodyPartPosition(3, 6),
+                                new GameState.BodyPartPosition(2, 6),
+                                new GameState.BodyPartPosition(1, 6)
+                            },
+                            Health = 93
+                        },
+                        new GameState.Snake
+                        {
+                            Id = "2",
+                            Body = new List<GameState.BodyPartPosition>
+                            {
+                                new GameState.BodyPartPosition(5, 4),
+                                new GameState.BodyPartPosition(5, 3),
+                                new GameState.BodyPartPosition(5, 2),
+                                new GameState.BodyPartPosition(5, 1)
+                            },
+                            Health = 97
+                        }
+                    },
+                    Food = new List<GameState.FoodPosition>
+                    {
+                        new GameState.FoodPosition(4, 6)
+                    }
+                }
+            };
+
+            gameState.You = gameState.Board.Snakes.First();
+            return gameState;
+        }
     }
 }
