@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SnakeCore.Web.Brains;
@@ -34,12 +35,16 @@ namespace SnakeCore.Web
             services.AddScoped<Brainiac>();
             services.AddScoped<Nostradamus>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services
+                .AddControllers()
+                .AddJsonOptions(x => x.JsonSerializerOptions.IncludeFields = true);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseRouting();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -50,8 +55,11 @@ namespace SnakeCore.Web
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-            app.UseMvc();
+            //app.UseHttpsRedirection();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

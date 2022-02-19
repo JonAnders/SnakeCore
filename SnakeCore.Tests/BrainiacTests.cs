@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -13,6 +11,7 @@ using SnakeCore.Web.Brains;
 
 namespace SnakeCore.Tests
 {
+    [TestFixture]
     public class BrainiacTests
     {
         private IBrain brain;
