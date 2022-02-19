@@ -2,14 +2,20 @@
 {
     public class Lefty : IBrain
     {
-        public StartResponse Start(GameState gameState)
+        public Battlesnake GetBattlesnake()
         {
-            return new StartResponse
+            return new Battlesnake
             {
                 Color = "#aaaaaa",
-                HeadType = "bendr",
-                TailType = "pixel"
+                Head = "bendr",
+                Tail = "pixel"
             };
+        }
+
+
+        public void Start(GameState gameState)
+        {
+            return;
         }
 
 

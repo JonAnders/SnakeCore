@@ -16,12 +16,18 @@ namespace SnakeCore.Web.Brains
         }
 
 
-        public StartResponse Start(GameState gameState)
+        public Battlesnake GetBattlesnake()
         {
-            return new StartResponse
+            return new Battlesnake
             {
                 Color = "#aa0000"
             };
+        }
+
+
+        public void Start(GameState gameState)
+        {
+            return;
         }
 
 
@@ -37,7 +43,7 @@ namespace SnakeCore.Web.Brains
 
             if (body.Count > 1)
             {
-                if (body[0].X == body[1].X && body[0].Y == body[1].Y - 1)
+                if (body[0].X == body[1].X && body[0].Y == body[1].Y + 1)
                 {
                     // Going up
                     this.logger.LogDebug("Going up!");
@@ -45,7 +51,7 @@ namespace SnakeCore.Web.Brains
 
                     PromoteMove(moves, LegalMove.Right);
                 }
-                else if (body[0].X == body[1].X && body[0].Y == body[1].Y + 1)
+                else if (body[0].X == body[1].X && body[0].Y == body[1].Y - 1)
                 {
                     // Going down
                     this.logger.LogDebug("Going down!");
@@ -77,9 +83,9 @@ namespace SnakeCore.Web.Brains
             if (body[0].X >= board.Width - 1)
                 moves.Remove(LegalMove.Right);
             if (body[0].Y < 1)
-                moves.Remove(LegalMove.Up);
-            if (body[0].Y >= board.Height - 1)
                 moves.Remove(LegalMove.Down);
+            if (body[0].Y >= board.Height - 1)
+                moves.Remove(LegalMove.Up);
 
             return moves.First();
         }

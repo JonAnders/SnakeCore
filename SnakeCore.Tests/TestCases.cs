@@ -21,8 +21,8 @@ namespace SnakeCore.Tests
                             Id = "1",
                             Body = new List<GameState.BodyPartPosition>
                             {
-                                new GameState.BodyPartPosition(2, 0),
-                                new GameState.BodyPartPosition(2, 1),
+                                new GameState.BodyPartPosition(2, 4),
+                                new GameState.BodyPartPosition(2, 3),
                                 new GameState.BodyPartPosition(2, 2)
                             }
                         }
@@ -53,12 +53,12 @@ namespace SnakeCore.Tests
                             Body = new List<GameState.BodyPartPosition>
                             {
                                 new GameState.BodyPartPosition(2, 2),
-                                new GameState.BodyPartPosition(2, 3),
-                                new GameState.BodyPartPosition(3, 3),
-                                new GameState.BodyPartPosition(3, 2),
-                                new GameState.BodyPartPosition(3, 1),
                                 new GameState.BodyPartPosition(2, 1),
-                                new GameState.BodyPartPosition(1, 1)
+                                new GameState.BodyPartPosition(3, 1),
+                                new GameState.BodyPartPosition(3, 2),
+                                new GameState.BodyPartPosition(3, 3),
+                                new GameState.BodyPartPosition(2, 3),
+                                new GameState.BodyPartPosition(1, 3)
                             }
                         }
                     }
@@ -98,11 +98,11 @@ namespace SnakeCore.Tests
                             Id = "2",
                             Body = new List<GameState.BodyPartPosition>
                             {
-                                new GameState.BodyPartPosition(3, 1),
-                                new GameState.BodyPartPosition(2, 1),
-                                new GameState.BodyPartPosition(1, 1),
+                                new GameState.BodyPartPosition(3, 3),
+                                new GameState.BodyPartPosition(2, 3),
+                                new GameState.BodyPartPosition(1, 3),
                                 new GameState.BodyPartPosition(1, 2),
-                                new GameState.BodyPartPosition(1, 3)
+                                new GameState.BodyPartPosition(1, 1)
                             },
                             Health = 100
                         }
@@ -130,10 +130,10 @@ namespace SnakeCore.Tests
                             Id = "1",
                             Body = new List<GameState.BodyPartPosition>
                             {
-                                new GameState.BodyPartPosition(1, 1),
-                                new GameState.BodyPartPosition(1, 2),
                                 new GameState.BodyPartPosition(1, 3),
-                                new GameState.BodyPartPosition(1, 4)
+                                new GameState.BodyPartPosition(1, 2),
+                                new GameState.BodyPartPosition(1, 1),
+                                new GameState.BodyPartPosition(1, 0)
                             },
                             Health = 100
                         },
@@ -143,8 +143,8 @@ namespace SnakeCore.Tests
                             Body = new List<GameState.BodyPartPosition>
                             {
                                 new GameState.BodyPartPosition(2, 2),
-                                new GameState.BodyPartPosition(2, 3),
-                                new GameState.BodyPartPosition(2, 4)
+                                new GameState.BodyPartPosition(2, 1),
+                                new GameState.BodyPartPosition(2, 0)
                             },
                             Health = 100
                         }
@@ -172,14 +172,14 @@ namespace SnakeCore.Tests
                             Id = "1",
                             Body = new List<GameState.BodyPartPosition>
                             {
-                                new GameState.BodyPartPosition(3, 3),
-                                new GameState.BodyPartPosition(3, 4),
-                                new GameState.BodyPartPosition(4, 4),
-                                new GameState.BodyPartPosition(4, 3),
-                                new GameState.BodyPartPosition(4, 2),
-                                new GameState.BodyPartPosition(4, 1),
                                 new GameState.BodyPartPosition(3, 1),
-                                new GameState.BodyPartPosition(2, 1),
+                                new GameState.BodyPartPosition(3, 0),
+                                new GameState.BodyPartPosition(4, 0),
+                                new GameState.BodyPartPosition(4, 1),
+                                new GameState.BodyPartPosition(4, 2),
+                                new GameState.BodyPartPosition(4, 3),
+                                new GameState.BodyPartPosition(3, 3),
+                                new GameState.BodyPartPosition(2, 3),
                                 new GameState.BodyPartPosition(2, 2),
                                 new GameState.BodyPartPosition(1, 2),
                                 new GameState.BodyPartPosition(0, 2)
@@ -209,8 +209,8 @@ namespace SnakeCore.Tests
                             Id = "1",
                             Body = new List<GameState.BodyPartPosition>
                             {
-                                new GameState.BodyPartPosition(2, 0),
-                                new GameState.BodyPartPosition(2, 1),
+                                new GameState.BodyPartPosition(2, 4),
+                                new GameState.BodyPartPosition(2, 3),
                                 new GameState.BodyPartPosition(2, 2)
                             }
                         },
@@ -219,15 +219,15 @@ namespace SnakeCore.Tests
                             Id = "2",
                             Body = new List<GameState.BodyPartPosition>
                             {
-                                new GameState.BodyPartPosition(1, 1),
+                                new GameState.BodyPartPosition(1, 3),
                                 new GameState.BodyPartPosition(1, 2),
-                                new GameState.BodyPartPosition(1, 3)
+                                new GameState.BodyPartPosition(1, 1)
                             }
                         }
                     },
                     Food = new List<GameState.FoodPosition>
                     {
-                        new GameState.FoodPosition(0, 0)
+                        new GameState.FoodPosition(0, 4)
                     }
                 }
             };
@@ -253,18 +253,19 @@ namespace SnakeCore.Tests
                             Id = "1",
                             Body = new List<GameState.BodyPartPosition>
                             {
-                                new GameState.BodyPartPosition(4, 0),
-                                new GameState.BodyPartPosition(4, 1),
-                                new GameState.BodyPartPosition(4, 2),
+                                new GameState.BodyPartPosition(4, 5),
                                 new GameState.BodyPartPosition(4, 4),
-                                new GameState.BodyPartPosition(3, 4),
-                                new GameState.BodyPartPosition(3, 3),
-                                new GameState.BodyPartPosition(3, 2),
+                                new GameState.BodyPartPosition(4, 3),
+                                new GameState.BodyPartPosition(4, 2),
+                                new GameState.BodyPartPosition(4, 1),
                                 new GameState.BodyPartPosition(3, 1),
-                                new GameState.BodyPartPosition(3, 0),
-                                new GameState.BodyPartPosition(2, 0),
-                                new GameState.BodyPartPosition(1, 0),
-                                new GameState.BodyPartPosition(0, 0)
+                                new GameState.BodyPartPosition(3, 2),
+                                new GameState.BodyPartPosition(3, 3),
+                                new GameState.BodyPartPosition(3, 4),
+                                new GameState.BodyPartPosition(3, 5),
+                                new GameState.BodyPartPosition(2, 5),
+                                new GameState.BodyPartPosition(1, 5),
+                                new GameState.BodyPartPosition(0, 5)
                             }
                         },
                         new GameState.Snake
@@ -272,15 +273,15 @@ namespace SnakeCore.Tests
                             Id = "2",
                             Body = new List<GameState.BodyPartPosition>
                             {
-                                new GameState.BodyPartPosition(3, 5),
-                                new GameState.BodyPartPosition(4, 5),
-                                new GameState.BodyPartPosition(5, 5)
+                                new GameState.BodyPartPosition(3, 0),
+                                new GameState.BodyPartPosition(4, 0),
+                                new GameState.BodyPartPosition(5, 0)
                             }
                         }
                     },
                     Food = new List<GameState.FoodPosition>
                     {
-                        new GameState.FoodPosition(0, 3)
+                        new GameState.FoodPosition(0, 2)
                     }
                 }
             };
@@ -307,11 +308,11 @@ namespace SnakeCore.Tests
                             Body = new List<GameState.BodyPartPosition>
                             {
                                 new GameState.BodyPartPosition(2, 2),
-                                new GameState.BodyPartPosition(2, 3),
-                                new GameState.BodyPartPosition(3, 3),
+                                new GameState.BodyPartPosition(2, 2),
                                 new GameState.BodyPartPosition(3, 2),
-                                new GameState.BodyPartPosition(3, 1),
-                                new GameState.BodyPartPosition(2, 1)
+                                new GameState.BodyPartPosition(3, 3),
+                                new GameState.BodyPartPosition(3, 4),
+                                new GameState.BodyPartPosition(2, 4)
                             }
                         }
                     }
@@ -339,8 +340,8 @@ namespace SnakeCore.Tests
                             Body = new List<GameState.BodyPartPosition>
                             {
                                 new GameState.BodyPartPosition(2, 2),
-                                new GameState.BodyPartPosition(2, 3),
-                                new GameState.BodyPartPosition(2, 4)
+                                new GameState.BodyPartPosition(2, 1),
+                                new GameState.BodyPartPosition(2, 0)
                             }
                         },
                         new GameState.Snake
@@ -348,9 +349,9 @@ namespace SnakeCore.Tests
                             Id = "2",
                             Body = new List<GameState.BodyPartPosition>
                             {
-                                new GameState.BodyPartPosition(4, 1),
-                                new GameState.BodyPartPosition(3, 1),
-                                new GameState.BodyPartPosition(2, 1)
+                                new GameState.BodyPartPosition(4, 3),
+                                new GameState.BodyPartPosition(3, 3),
+                                new GameState.BodyPartPosition(2, 3)
                             }
                         }
                     }
@@ -361,7 +362,7 @@ namespace SnakeCore.Tests
             {
                 gameState.Board.Food = new List<GameState.FoodPosition>
                     {
-                        new GameState.FoodPosition(4, 0)
+                        new GameState.FoodPosition(4, 4)
                     };
             }
 
@@ -387,9 +388,9 @@ namespace SnakeCore.Tests
                             Id = "1",
                             Body = new List<GameState.BodyPartPosition>
                             {
-                                new GameState.BodyPartPosition(4, 3),
+                                new GameState.BodyPartPosition(4, 1),
                                 new GameState.BodyPartPosition(4, 2),
-                                new GameState.BodyPartPosition(4, 1)
+                                new GameState.BodyPartPosition(4, 3)
                             }
                         },
                         new GameState.Snake
@@ -397,9 +398,9 @@ namespace SnakeCore.Tests
                             Id = "2",
                             Body = new List<GameState.BodyPartPosition>
                             {
-                                new GameState.BodyPartPosition(3, 4),
-                                new GameState.BodyPartPosition(3, 3),
-                                new GameState.BodyPartPosition(2, 3)
+                                new GameState.BodyPartPosition(3, 0),
+                                new GameState.BodyPartPosition(3, 1),
+                                new GameState.BodyPartPosition(2, 1)
                             }
                         }
                     }
@@ -426,16 +427,16 @@ namespace SnakeCore.Tests
                             Id = "1",
                             Body = new List<GameState.BodyPartPosition>
                             {
-                                new GameState.BodyPartPosition(3, 3),
-                                new GameState.BodyPartPosition(3, 4),
-                                new GameState.BodyPartPosition(4, 4),
-                                new GameState.BodyPartPosition(4, 3),
-                                new GameState.BodyPartPosition(4, 2),
-                                new GameState.BodyPartPosition(4, 1),
-                                new GameState.BodyPartPosition(4, 0),
+                                new GameState.BodyPartPosition(3, 1),
                                 new GameState.BodyPartPosition(3, 0),
-                                new GameState.BodyPartPosition(2, 0),
-                                new GameState.BodyPartPosition(2, 1),
+                                new GameState.BodyPartPosition(4, 0),
+                                new GameState.BodyPartPosition(4, 1),
+                                new GameState.BodyPartPosition(4, 2),
+                                new GameState.BodyPartPosition(4, 3),
+                                new GameState.BodyPartPosition(4, 4),
+                                new GameState.BodyPartPosition(3, 4),
+                                new GameState.BodyPartPosition(2, 4),
+                                new GameState.BodyPartPosition(2, 3),
                                 new GameState.BodyPartPosition(2, 2),
                                 new GameState.BodyPartPosition(1, 2),
                                 new GameState.BodyPartPosition(0, 2)
@@ -465,9 +466,9 @@ namespace SnakeCore.Tests
                             Id = "1",
                             Body = new List<GameState.BodyPartPosition>
                             {
-                                new GameState.BodyPartPosition(1, 1),
-                                new GameState.BodyPartPosition(1, 1),
-                                new GameState.BodyPartPosition(1, 1)
+                                new GameState.BodyPartPosition(1, 4),
+                                new GameState.BodyPartPosition(1, 4),
+                                new GameState.BodyPartPosition(1, 4)
                             },
                             Health = 100
                         },
@@ -476,9 +477,9 @@ namespace SnakeCore.Tests
                             Id = "2",
                             Body = new List<GameState.BodyPartPosition>
                             {
-                                new GameState.BodyPartPosition(2, 1),
-                                new GameState.BodyPartPosition(2, 1),
-                                new GameState.BodyPartPosition(2, 1)
+                                new GameState.BodyPartPosition(2, 4),
+                                new GameState.BodyPartPosition(2, 4),
+                                new GameState.BodyPartPosition(2, 4)
                             },
                             Health = 100
                         },
@@ -487,9 +488,9 @@ namespace SnakeCore.Tests
                             Id = "3",
                             Body = new List<GameState.BodyPartPosition>
                             {
-                                new GameState.BodyPartPosition(3, 1),
-                                new GameState.BodyPartPosition(3, 1),
-                                new GameState.BodyPartPosition(3, 1)
+                                new GameState.BodyPartPosition(3, 4),
+                                new GameState.BodyPartPosition(3, 4),
+                                new GameState.BodyPartPosition(3, 4)
                             },
                             Health = 100
                         },
@@ -498,9 +499,9 @@ namespace SnakeCore.Tests
                             Id = "4",
                             Body = new List<GameState.BodyPartPosition>
                             {
-                                new GameState.BodyPartPosition(4, 1),
-                                new GameState.BodyPartPosition(4, 1),
-                                new GameState.BodyPartPosition(4, 1)
+                                new GameState.BodyPartPosition(4, 4),
+                                new GameState.BodyPartPosition(4, 4),
+                                new GameState.BodyPartPosition(4, 4)
                             },
                             Health = 100
                         },
@@ -509,9 +510,9 @@ namespace SnakeCore.Tests
                             Id = "5",
                             Body = new List<GameState.BodyPartPosition>
                             {
-                                new GameState.BodyPartPosition(1, 2),
-                                new GameState.BodyPartPosition(1, 2),
-                                new GameState.BodyPartPosition(1, 2)
+                                new GameState.BodyPartPosition(1, 3),
+                                new GameState.BodyPartPosition(1, 3),
+                                new GameState.BodyPartPosition(1, 3)
                             },
                             Health = 100
                         },
@@ -520,9 +521,9 @@ namespace SnakeCore.Tests
                             Id = "6",
                             Body = new List<GameState.BodyPartPosition>
                             {
-                                new GameState.BodyPartPosition(2, 2),
-                                new GameState.BodyPartPosition(2, 2),
-                                new GameState.BodyPartPosition(2, 2)
+                                new GameState.BodyPartPosition(2, 3),
+                                new GameState.BodyPartPosition(2, 3),
+                                new GameState.BodyPartPosition(2, 3)
                             },
                             Health = 100
                         },
@@ -531,9 +532,9 @@ namespace SnakeCore.Tests
                             Id = "7",
                             Body = new List<GameState.BodyPartPosition>
                             {
-                                new GameState.BodyPartPosition(3, 2),
-                                new GameState.BodyPartPosition(3, 2),
-                                new GameState.BodyPartPosition(3, 2)
+                                new GameState.BodyPartPosition(3, 3),
+                                new GameState.BodyPartPosition(3, 3),
+                                new GameState.BodyPartPosition(3, 3)
                             },
                             Health = 100
                         },
@@ -542,9 +543,9 @@ namespace SnakeCore.Tests
                             Id = "8",
                             Body = new List<GameState.BodyPartPosition>
                             {
-                                new GameState.BodyPartPosition(4, 2),
-                                new GameState.BodyPartPosition(4, 2),
-                                new GameState.BodyPartPosition(4, 2)
+                                new GameState.BodyPartPosition(4, 3),
+                                new GameState.BodyPartPosition(4, 3),
+                                new GameState.BodyPartPosition(4, 3)
                             },
                             Health = 100
                         }
@@ -573,9 +574,9 @@ namespace SnakeCore.Tests
                             Id = "1",
                             Body = new List<GameState.BodyPartPosition>
                             {
-                                new GameState.BodyPartPosition(1, 1),
+                                new GameState.BodyPartPosition(1, 3),
                                 new GameState.BodyPartPosition(1, 2),
-                                new GameState.BodyPartPosition(1, 3)
+                                new GameState.BodyPartPosition(1, 1)
                             },
                             Health = 100
                         },
@@ -585,11 +586,11 @@ namespace SnakeCore.Tests
                             Body = new List<GameState.BodyPartPosition>
                             {
                                 new GameState.BodyPartPosition(2, 2),
-                                new GameState.BodyPartPosition(2, 1),
-                                new GameState.BodyPartPosition(2, 0),
-                                new GameState.BodyPartPosition(1, 0),
-                                new GameState.BodyPartPosition(0, 0),
-                                new GameState.BodyPartPosition(0, 1)
+                                new GameState.BodyPartPosition(2, 3),
+                                new GameState.BodyPartPosition(2, 4),
+                                new GameState.BodyPartPosition(1, 4),
+                                new GameState.BodyPartPosition(0, 4),
+                                new GameState.BodyPartPosition(0, 3)
                             },
                             Health = 100
                         }
@@ -618,12 +619,12 @@ namespace SnakeCore.Tests
                             Body = new List<GameState.BodyPartPosition>
                             {
                                 new GameState.BodyPartPosition(2, 2),
-                                new GameState.BodyPartPosition(2, 1),
-                                new GameState.BodyPartPosition(1, 1),
-                                new GameState.BodyPartPosition(1, 2),
-                                new GameState.BodyPartPosition(1, 3),
                                 new GameState.BodyPartPosition(2, 3),
-                                new GameState.BodyPartPosition(3, 3),
+                                new GameState.BodyPartPosition(1, 3),
+                                new GameState.BodyPartPosition(1, 2),
+                                new GameState.BodyPartPosition(1, 1),
+                                new GameState.BodyPartPosition(2, 1),
+                                new GameState.BodyPartPosition(3, 1),
                                 new GameState.BodyPartPosition(3, 2)
                             }
                         }

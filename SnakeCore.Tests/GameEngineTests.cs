@@ -66,7 +66,7 @@ namespace SnakeCore.Tests
             Assert.That(futureSnakes, Is.Not.Null);
             Assert.That(futureSnakes.Count, Is.EqualTo(2));
 
-            Assert.That(futureSnakes[0], Is.EqualTo(new BodyPartPosition[] { new BodyPartPosition(1, 3), new BodyPartPosition(1, 2), new BodyPartPosition(1, 2) }));
+            Assert.That(futureSnakes[0], Is.EqualTo(new BodyPartPosition[] { new BodyPartPosition(1, 1), new BodyPartPosition(1, 2), new BodyPartPosition(1, 2) }));
             Assert.That(futureSnakes[1], Is.EqualTo(new BodyPartPosition[] { new BodyPartPosition(4, 2), new BodyPartPosition(3, 2), new BodyPartPosition(3, 2) }));
         }
 

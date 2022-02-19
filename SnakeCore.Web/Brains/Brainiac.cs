@@ -19,14 +19,20 @@ namespace SnakeCore.Web.Brains
         }
 
 
-        public StartResponse Start(GameState gameState)
+        public Battlesnake GetBattlesnake()
         {
-            return new StartResponse
+            return new Battlesnake
             {
                 Color = "#f9812a",
-                HeadType = "dead",
-                TailType = "bolt"
+                Head = "dead",
+                Tail = "bolt"
             };
+        }
+
+
+        public void Start(GameState gameState)
+        {
+            return;
         }
 
 
@@ -225,9 +231,9 @@ namespace SnakeCore.Web.Brains
 
             return new List<WeightedMove>
             {
-                new WeightedMove(LegalMove.Up, head.X, head.Y - 1),
+                new WeightedMove(LegalMove.Up, head.X, head.Y + 1),
                 new WeightedMove(LegalMove.Right, head.X + 1, head.Y),
-                new WeightedMove(LegalMove.Down, head.X, head.Y + 1),
+                new WeightedMove(LegalMove.Down, head.X, head.Y - 1),
                 new WeightedMove(LegalMove.Left, head.X - 1, head.Y)
             };
         }

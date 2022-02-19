@@ -21,9 +21,9 @@ namespace SnakeCore.Web
                 var newHead = new GameState.BodyPartPosition(-1, -1);
 
                 if (moves[i] == LegalMove.Up)
-                    newHead = new GameState.BodyPartPosition(oldHead.X, oldHead.Y - 1);
-                else if (moves[i] == LegalMove.Down)
                     newHead = new GameState.BodyPartPosition(oldHead.X, oldHead.Y + 1);
+                else if (moves[i] == LegalMove.Down)
+                    newHead = new GameState.BodyPartPosition(oldHead.X, oldHead.Y - 1);
                 else if (moves[i] == LegalMove.Left)
                     newHead = new GameState.BodyPartPosition(oldHead.X - 1, oldHead.Y);
                 else if (moves[i] == LegalMove.Right)

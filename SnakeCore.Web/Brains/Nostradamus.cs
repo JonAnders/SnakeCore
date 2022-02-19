@@ -16,14 +16,21 @@ namespace SnakeCore.Web.Brains
             this.precalc = precalc;
         }
 
-        public StartResponse Start(GameState gameState)
+
+        public Battlesnake GetBattlesnake()
         {
-            return new StartResponse
+            return new Battlesnake
             {
                 Color = "#7788aa",
-                HeadType = "silly",
-                TailType = "freckled"
+                Head = "silly",
+                Tail = "freckled"
             };
+        }
+
+
+        public void Start(GameState gameState)
+        {
+            return;
         }
 
 

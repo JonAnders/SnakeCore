@@ -10,7 +10,7 @@ namespace SnakeCore.Web.Controllers
 {
     [Route("{brain}")]
     [ApiController]
-    public class BattleSnakeController : Controller
+    public class BattleSnakeController : ControllerBase
     {
         private readonly ILogger logger;
         private readonly IServiceProvider serviceProvider;
@@ -23,12 +23,25 @@ namespace SnakeCore.Web.Controllers
         }
 
 
-        [Route("start")]
+        [HttpGet]
+        public IActionResult GetBattlesnake([FromRoute(Name = "brain")] string brainName)
+        {
+            var brain = GetBrain(brainName);
+
+            var battlesnake = brain.GetBattlesnake();
+
+            return Ok(battlesnake);
+        }
+
+
+        [HttpPost("start")]
         public IActionResult Start([FromRoute(Name = "brain")]string brainName, GameState gameState)
         {
             var brain = GetBrain(brainName);
 
-            return Json(brain.Start(gameState));
+            brain.Start(gameState);
+
+            return Ok();
         }
 
 
@@ -43,7 +56,7 @@ namespace SnakeCore.Web.Controllers
 
             this.logger.LogDebug($"\nSelected move: {move}\n");
 
-            return Json(move);
+            return Ok(move);
         }
 
         
@@ -132,7 +145,8 @@ namespace SnakeCore.Web.Controllers
             }
 
             sb.Clear();
-            for (int y = 0; y < board[0].Length; y++)
+            sb.AppendLine();
+            for (int y = board[0].Length - 1; y >= 0; y--)
             {
                 sb.Append('|');
                 for (int x = 0; x < board.Length; x++)

@@ -2,7 +2,8 @@
 {
     public interface IBrain
     {
-        StartResponse Start(GameState gameState);
+        Battlesnake GetBattlesnake();
+        void Start(GameState gameState);
         LegalMove Move(GameState gameState);
         void End(GameState gameState);
     }
