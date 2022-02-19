@@ -167,7 +167,7 @@ namespace SnakeCore.Web.Brains
 
         private void EatIfHungry(List<WeightedMove> weightedMoves, GameState gameState)
         {
-            if (gameState.Board.Food == null)
+            if (gameState.Board.Food == null || gameState.Board.Food.Count == 0)
                 return;
 
             var minFoodDist = int.MaxValue;

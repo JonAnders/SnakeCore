@@ -62,6 +62,19 @@ namespace SnakeCore.Tests
         }
 
         [Test]
+        public void Test03Hungry()
+        {
+            // This was added as Brainiac was misbehaving when hungry without any food
+
+            GameState gameState = TestCases.Test03();
+            gameState.You.Health = 15;
+
+            var move = this.brain.Move(gameState);
+
+            Assert.That(move, Is.EqualTo(LegalMove.Down));
+        }
+
+        [Test]
         public void Test04()
         {
             GameState gameState = TestCases.Test04();

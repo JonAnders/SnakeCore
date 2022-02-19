@@ -106,7 +106,8 @@ namespace SnakeCore.Tests
                             },
                             Health = 100
                         }
-                    }
+                    },
+                    Food = new List<GameState.FoodPosition>()
                 }
             };
 
