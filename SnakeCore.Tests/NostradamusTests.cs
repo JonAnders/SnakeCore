@@ -218,16 +218,18 @@ namespace SnakeCore.Tests
         }
 
 
-        [Test]
-        public void Test15()
+        [TestCase(93, ExpectedResult = "down")]
+        [TestCase(2, ExpectedResult = "right")]
+        public string Test15(int hp)
         {
             var gameState = TestCases.Test15();
+            gameState.You.Health = hp;
 
             var stopwatch = Stopwatch.StartNew();
             var move = this.brain.Move(gameState);
             Console.WriteLine(stopwatch.Elapsed);
 
-            Assert.That(move, Is.EqualTo(LegalMove.Down));
+            return move.Move;
         }
     }
 }

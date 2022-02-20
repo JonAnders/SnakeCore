@@ -17,6 +17,8 @@ namespace SnakeCore.Web
             {
                 var snakeBody = snakeBodies[i];
 
+                // 1. Apply move
+
                 var oldHead = snakeBody[0];
                 var newHead = new GameState.BodyPartPosition(-1, -1);
 
@@ -34,18 +36,31 @@ namespace SnakeCore.Web
                 Array.Copy(snakeBody, 0, futureSnakeBody, 1, snakeBody.Length - 1);
                 futureSnakeBodies[i] = futureSnakeBody;
                 
-                var futureHealth = healths[i];
+                // 2. Adjust health
+
                 if (snakeBody.Length > 2 && newHead.X == snakeBody[2].X && newHead.Y == snakeBody[2].Y)
                     // If going back into itself
-                    futureHealth = 0;
+                    futureHealths[i] = 0;
                 else if (newHead.X < 0 || newHead.X > boardArray.GetLength(0) - 1 || newHead.Y < 0 || newHead.Y > boardArray.GetLength(1) - 1)
                     // If colliding with wall
-                    futureHealth = 0;
-                else if (boardArray[newHead.X, newHead.Y] > 0)
+                    futureHealths[i] = 0;
+                else if (boardArray[newHead.X, newHead.Y] == 1)
                     // If colliding with the body of another snake
-                    futureHealth = 0;
+                    futureHealths[i] = 0;
+                else if (boardArray[newHead.X, newHead.Y] == 1337)
+                {
+                    // If eating food
+                    futureHealths[i] = 100;
 
-                futureHealths[i] = futureHealth;
+                    futureSnakeBody = new GameState.BodyPartPosition[futureSnakeBodies[i].Length + 1];
+                    Array.Copy(futureSnakeBodies[i], 0, futureSnakeBody, 0, futureSnakeBodies[i].Length);
+                    futureSnakeBody[^1] = futureSnakeBody[^2];
+                    futureSnakeBodies[i] = futureSnakeBody;
+
+                    // TODO: How to remove food?
+                }
+                else
+                    futureHealths[i] = healths[i] - 1;
             }
 
             for (int i = 0; i < futureSnakeBodies.Length; i++)

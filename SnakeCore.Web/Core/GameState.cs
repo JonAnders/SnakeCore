@@ -19,7 +19,7 @@ namespace SnakeCore.Web
         {
             public int Height;
             public int Width;
-            public IList<FoodPosition> Food;
+            public IList<FoodPosition> Food = new List<FoodPosition>();
             public IList<Snake> Snakes;
 
 

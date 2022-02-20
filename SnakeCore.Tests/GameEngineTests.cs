@@ -131,8 +131,28 @@ namespace SnakeCore.Tests
 
             (var futureSnakes, var futureHealths) = this.gameEngine.ProcessMoves(snakeBodies, healths, boardArray, moves);
 
-            Assert.That(futureHealths[0], Is.EqualTo(100));
+            Assert.That(futureHealths[0], Is.EqualTo(99));
             Assert.That(futureHealths[1], Is.EqualTo(0));
+        }
+
+
+        [Test]
+        public void ProcessMoves_EatFood_MaxHealthIsRestoredAndTailGrows()
+        {
+            var board = TestCases.Test15().Board;
+
+            int[,] boardArray = GetBoardArray(board);
+            var snakeBodies = GetSnakeBodies(board);
+            var healths = GetHealths(board);
+
+            var moves = new LegalMove[] { LegalMove.Right, LegalMove.Up, };
+
+            (var futureSnakes, var futureHealths) = this.gameEngine.ProcessMoves(snakeBodies, healths, boardArray, moves);
+
+            Assert.That(futureHealths[0], Is.EqualTo(100));
+
+            Assert.That(futureSnakes[0].Length, Is.EqualTo(snakeBodies[0].Length + 1));
+            Assert.That(futureSnakes[0][^1], Is.EqualTo(futureSnakes[0][^2]));
         }
 
 
@@ -158,17 +178,26 @@ namespace SnakeCore.Tests
             Assert.That(stopwatch.ElapsedMilliseconds, Is.LessThan(100));
 
             Assert.That(futureSnakes.Count, Is.EqualTo(8));
-            Assert.That(futureHealths.All(x => x == 100), Is.True);
+            Assert.That(futureHealths.All(x => x == 99), Is.True);
         }
 
 
         private static int[,] GetBoardArray(BoardData board)
         {
             var boardArray = new int[board.Width, board.Height];
+
             foreach (var snake in board.Snakes)
             {
                 foreach (var bodyPartPosition in snake.Body)
                     boardArray[bodyPartPosition.X, bodyPartPosition.Y] = 1;
+            }
+
+            if (board.Food != null)
+            {
+                foreach (var food in board.Food)
+                {
+                    boardArray[food.X, food.Y] = 1337;
+                }
             }
 
             return boardArray;

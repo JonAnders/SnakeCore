@@ -53,6 +53,10 @@ namespace SnakeCore.Web.Brains
                 for (int i = 0; i < snake.Body.Count - 1; i++)
                     boardArray[snake.Body[i].X, snake.Body[i].Y] = 1;
             }
+            foreach (var food in board.Food)
+            {
+                boardArray[food.X, food.Y] = 1337;
+            }
 
             var snakeBodies = board.Snakes.Select(x => x.Body.ToArray()).ToArray();
             var healths = board.Snakes.Select(x => x.Health).ToArray();
@@ -105,7 +109,7 @@ namespace SnakeCore.Web.Brains
 
             foreach (var permutation in permutations)
             {
-                var survivableFutures = GetSurvivableFutures(board.Width, board.Height, snakeBodies, healths, permutation, indexOfMyself, depth);
+                var survivableFutures = GetSurvivableFutures(board.Width, board.Height, snakeBodies, healths, board.Food.ToArray(), permutation, indexOfMyself, depth);
                 if (survivableFutures > 0)
                     survivableFuturesPerMove[permutation[indexOfMyself]] += survivableFutures;
             }
@@ -119,13 +123,17 @@ namespace SnakeCore.Web.Brains
         }
 
 
-        private int GetSurvivableFutures(int boardWidth, int boardHeight, GameState.BodyPartPosition[][] snakeBodies, int[] healths, LegalMove[] moves, int indexOfMyself, int depth)
+        private int GetSurvivableFutures(int boardWidth, int boardHeight, GameState.BodyPartPosition[][] snakeBodies, int[] healths, GameState.FoodPosition[] foods, LegalMove[] moves, int indexOfMyself, int depth)
         {
             var boardArray = new int[boardWidth, boardHeight];
             foreach (var snake in snakeBodies)
             {
                 for (int i = 0; i < snake.Length - 1; i++)
                     boardArray[snake[i].X, snake[i].Y] = 1;
+            }
+            foreach (var food in foods)
+            {
+                boardArray[food.X, food.Y] = 1337;
             }
 
             (var futureSnakes, var futureHealths) = gameEngine.ProcessMoves(snakeBodies, healths, boardArray, moves);
@@ -164,7 +172,7 @@ namespace SnakeCore.Web.Brains
                 for (int i = 0; i < permutations.Length; i++)
                 {
                     survivableFutures += GetSurvivableFutures(boardWidth, boardHeight, survivingFutureSnakes, survivingFutureHealths,
-                                                              permutations[i],
+                                                              foods, permutations[i],
                                                               newIndexOfMyself, depth - 1);
                 }
 
