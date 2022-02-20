@@ -114,6 +114,19 @@ namespace SnakeCore.Tests
 
 
         [Test]
+        public void Test05()
+        {
+            var gameState = TestCases.Test05();
+
+            var stopwatch = Stopwatch.StartNew();
+            var move = this.brain.Move(gameState);
+            Console.WriteLine(stopwatch.Elapsed);
+
+            Assert.That(move, Is.EqualTo(LegalMove.Left));
+        }
+
+
+        [Test]
         public void Test07()
         {
             var gameState = TestCases.Test07();
@@ -123,6 +136,46 @@ namespace SnakeCore.Tests
             Console.WriteLine(stopwatch.Elapsed);
 
             Assert.That(move, Is.EqualTo(LegalMove.Right));
+        }
+
+
+        [Test]
+        public void Test08()
+        {
+            var gameState = TestCases.Test08();
+
+            var stopwatch = Stopwatch.StartNew();
+            var move = this.brain.Move(gameState);
+            Console.WriteLine(stopwatch.Elapsed);
+
+            Assert.That(move, Is.EqualTo(LegalMove.Up));
+        }
+
+
+        [Test]
+        [Ignore("Longest path to certain death is not supported yet")]
+        public void Test10()
+        {
+            var gameState = TestCases.Test10();
+
+            var stopwatch = Stopwatch.StartNew();
+            var move = this.brain.Move(gameState);
+            Console.WriteLine(stopwatch.Elapsed);
+
+            Assert.That(move, Is.EqualTo(LegalMove.Down));
+        }
+
+
+        [Test]
+        public void Test11()
+        {
+            var gameState = TestCases.Test11();
+
+            var stopwatch = Stopwatch.StartNew();
+            var move = this.brain.Move(gameState);
+            Console.WriteLine(stopwatch.Elapsed);
+
+            Assert.That(move, Is.EqualTo(LegalMove.Left));
         }
 
 
@@ -162,6 +215,19 @@ namespace SnakeCore.Tests
             Console.WriteLine(stopwatch.Elapsed);
 
             Assert.That(move, Is.EqualTo(LegalMove.Right));
+        }
+
+
+        [Test]
+        public void Test15()
+        {
+            var gameState = TestCases.Test15();
+
+            var stopwatch = Stopwatch.StartNew();
+            var move = this.brain.Move(gameState);
+            Console.WriteLine(stopwatch.Elapsed);
+
+            Assert.That(move, Is.EqualTo(LegalMove.Down));
         }
     }
 }

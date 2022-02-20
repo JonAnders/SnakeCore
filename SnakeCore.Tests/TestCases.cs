@@ -1,4 +1,6 @@
-﻿using SnakeCore.Web;
+﻿using System;
+
+using SnakeCore.Web;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -184,7 +186,8 @@ namespace SnakeCore.Tests
                                 new GameState.BodyPartPosition(2, 2),
                                 new GameState.BodyPartPosition(1, 2),
                                 new GameState.BodyPartPosition(0, 2)
-                            }
+                            },
+                            Health = 100
                         }
                     }
                 }
@@ -309,12 +312,13 @@ namespace SnakeCore.Tests
                             Body = new List<GameState.BodyPartPosition>
                             {
                                 new GameState.BodyPartPosition(2, 2),
-                                new GameState.BodyPartPosition(2, 2),
+                                new GameState.BodyPartPosition(2, 1),
+                                new GameState.BodyPartPosition(3, 1),
                                 new GameState.BodyPartPosition(3, 2),
                                 new GameState.BodyPartPosition(3, 3),
-                                new GameState.BodyPartPosition(3, 4),
-                                new GameState.BodyPartPosition(2, 4)
-                            }
+                                new GameState.BodyPartPosition(2, 3)
+                            },
+                            Health = 100
                         }
                     }
                 }
@@ -441,7 +445,8 @@ namespace SnakeCore.Tests
                                 new GameState.BodyPartPosition(2, 2),
                                 new GameState.BodyPartPosition(1, 2),
                                 new GameState.BodyPartPosition(0, 2)
-                            }
+                            },
+                            Health = 100
                         }
                     }
                 }
@@ -687,6 +692,14 @@ namespace SnakeCore.Tests
 
             gameState.You = gameState.Board.Snakes.First();
             return gameState;
+        }
+
+
+        public static GameState Test16()
+        {
+            // https://play.battlesnake.com/g/ecc50070-5537-4bb8-b732-e38a3c122f9b/
+
+            throw new NotImplementedException();
         }
     }
 }
