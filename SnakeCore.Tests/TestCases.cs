@@ -709,5 +709,21 @@ namespace SnakeCore.Tests
 
             throw new NotImplementedException();
         }
+
+
+        public static GameState Test18()
+        {
+            // https://play.battlesnake.com/g/8bcf672a-ad03-4c71-b5d3-184edbeb7b56/
+
+            throw new NotImplementedException();
+        }
+
+
+        public static GameState Test19()
+        {
+            // https://play.battlesnake.com/g/e2848d8d-62e7-44fe-a7d8-a8b7ab5054be/
+
+            throw new NotImplementedException();
+        }
     }
 }

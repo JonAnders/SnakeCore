@@ -106,6 +106,7 @@ namespace SnakeCore.Web.Brains
             var depth = 5 - snakeBodies.Length;
             if (depth < 0)
                 depth = 0;
+            Console.WriteLine("Depth: " + depth);
 
             foreach (var permutation in permutations)
             {
