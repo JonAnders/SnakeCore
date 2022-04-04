@@ -95,6 +95,9 @@ namespace SnakeCore.Web.Controllers
                 case "nostradamus":
                     brainType = typeof(Nostradamus);
                     break;
+                case "floody":
+                    brainType = typeof(Floody);
+                    break;
                 default:
                     throw new Exception($"Unkown brain: {brainName}");
             }

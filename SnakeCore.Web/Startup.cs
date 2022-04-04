@@ -34,6 +34,7 @@ namespace SnakeCore.Web
             services.AddScoped<Spinner>();
             services.AddScoped<Brainiac>();
             services.AddScoped<Nostradamus>();
+            services.AddScoped<Floody>();
 
             services
                 .AddControllers()
